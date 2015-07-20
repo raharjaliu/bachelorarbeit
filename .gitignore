@@ -1,4 +1,4 @@
- tailored gitignore for this project. Do not use this for other TeX project
+# Tailored gitignore for this project. Do not use this for other TeX project
 
 # project specific ignore
 BA_rumpf*
