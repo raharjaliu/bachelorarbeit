@@ -61,30 +61,36 @@
 \begin{titlepage}
 \begin{center}
 
-\textsc{\LARGE \univname}\\[1.5cm] % University name
-\textsc{\Large Doctoral Thesis}\\[0.5cm] % Thesis type
+\textsc{\Large Technische Universit\"t M\"unchen}\\[1.5cm] % University name
+\textsc{\Large Ludwig-Maximillians-Univesit\"at M\"unchen}\\[1.5cm] % University name
+\textsc{\Large Bachelor's Thesis in Bioinformatics}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
-{\huge \bfseries \ttitle}\\[0.4cm] % Thesis title
+{\Large \bfseries PubSeq: Amino Acid-based Search Engine for MEDLINE Abstracts}\\[0.4cm] % Thesis title
+{\Large \bfseries PubSeq: Aminosäuresequenz basierte Suchmachine für MEDLINE Abstrakten}\\[0.4cm] % Thesis title
 \HRule \\[1.5cm] % Horizontal line
  
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
 \emph{Author:}\\
-\href{http://www.johnsmith.com}{\authornames} % Author name - remove the \href bracket to remove the link
+Pandu Raharja
 \end{flushleft}
 \end{minipage}
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
 \emph{Supervisor:} \\
-\href{http://www.jamessmith.com}{\supname} % Supervisor name - remove the \href bracket to remove the link  
+Prof. Dr. Burkhard Rost\\
+\emph{Advisors:} \\
+Dr. Guy Yachdav \\
+Juan Miguel Cajuela
 \end{flushright}
 \end{minipage}\\[3cm]
  
-\large \textit{A thesis submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
-\textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+% \textit{A thesis submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+%\textit{in the}\\[0.4cm]
+Technische Universit\"at M\"unchen\\Faculty of Informatics\\[2cm] % Research group name and department name
  
+%{\large September 15, 2015}\\[4cm] % Date
 {\large \today}\\[4cm] % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it
  
@@ -92,6 +98,8 @@
 \end{center}
 
 \end{titlepage}
+
+
 
 %----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
@@ -102,16 +110,7 @@
 
 \addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-I, \authornames, declare that this thesis titled, '\ttitle' and the work presented in it are my own. I confirm that:
-
-\begin{itemize} 
-\item[\tiny{$\blacksquare$}] This work was done wholly or mainly while in candidature for a research degree at this University.
-\item[\tiny{$\blacksquare$}] Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item[\tiny{$\blacksquare$}] Where I have consulted the published work of others, this is always clearly attributed.
-\item[\tiny{$\blacksquare$}] Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
-\item[\tiny{$\blacksquare$}] I have acknowledged all main sources of help.
-\item[\tiny{$\blacksquare$}] Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
-\end{itemize}
+I confirm that this bachelor's thesis is my own work and I have documented all sources and material used.
  
 Signed:\\
 \rule[1em]{25em}{0.5pt} % This prints a line for the signature
@@ -126,29 +125,48 @@ Date:\\
 %	QUOTATION PAGE
 %----------------------------------------------------------------------------------------
 
-\pagestyle{empty} % No headers or footers for the following pages
+%
+%\pagestyle{empty} % No headers or footers for the following pages
+%
+%\null\vfill % Add some space to move the quote down the page a bit
+%
+%\textit{``Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism."}
+%
+%\begin{flushright}
+%Dave Barry
+%\end{flushright}
+%
+%\vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
 
-\null\vfill % Add some space to move the quote down the page a bit
-
-\textit{``Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism."}
-
-\begin{flushright}
-Dave Barry
-\end{flushright}
-
-\vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
-
-\clearpage % Start a new page
+%\clearpage % Start a new page
 
 %----------------------------------------------------------------------------------------
-%	ABSTRACT PAGE
+%	ABSTRACT PAGE IN ENGLISH AND GERMAN
 %----------------------------------------------------------------------------------------
 
 \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
 
 \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
+\textbf{Background}\\
+In genetic research, it is imperative for biomedical researcher to stay updated on the current  state of identified proteins. It was hard -- and is getting harder, especially after widespread use of Next-Generation Sequencing (NGS) -- for researcher to keep updated on the research into protein he/she is currently investigating. This is furthermore exacerbated by the fact that existing search engines only allow querying abstracts using protein names.\\
+\noindent
+\textbf{Methods}\\
+In this project, we present the first search engine that allows user to find all publications mentioning proteins that are similar or identical to the one he/she's interested in. To achieve this, we create a Solr Index that lists down all gene names that were mentioned in each of MEDLINE abstracts and titles. We populate the indexby scanning the whole MEDLINE, tag protein names found in title and abstract, normalize those names into UniProt IDs and index the ID mentions within our database. Given user's sequence query, the program runs a blast on the sequence and normalizes blast results to UniProt IDs. We then retrieve articles mentioning this ID and return 
+these to user. For the good usability we offer the whole service in a web interface available in \href{https://www.rostlab.org/}{following address}.
+}
+
+\clearpage % Start a new page
+
+\addtotoc{Zusammenfassung} % Add the "Abstract" page entry to the Contents
+
+\zusammenfassung{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\textbf{Hintergrund}\\
+In genetischer Forschung ist es erzwingend, dass der/die biomedische ForscherIn mit der aktuellen Landschaft von identifizierten Protein sich st\"andig informiert. Es war schwierig -- und wird immer schwieriger sein, vor allem nach dem verbreiteten Ansatz von Next Generation Sequencing (NGS) Technoligien, um der/die Forscherin mit dem Protein von der Interesse in aktuellem Zustand zu halten. Die Tatsache, dass die aktuelle Suchmaschine von den Artikeln nur Namenbasierte Suche unterst\"utzt, hilft leider nicht weiter.\\
+\noindent
+\textbf{Methoden}\\
+In diesem Projekt stellen wir eine Suchmaschine vor, die erlaubt den Ben\"utzer, basiert auf Aminos\"auresequenz nach den Artikeln suchen, die das Protein oder die \"Ahnliche erw\"ahnen. Um dies zu erreichen hatten wir einen Solr Index erstellt, der alle erw\"ahnte Proteine innerhalb jedes MEDLINE Artikels auflistet. Wir f\"ullen sich diesen Index in dem wir den gesamten MEDLINE Corpus durchscannen und alle Proteinname mithilfe eines NLP-Programs detektieren. Wir wurden dann diese Namen in UniProt IDs normalisieren. Diese normalisierte Namen wurden schlielich in unserem Solr Index hinzuf\"ugen. Um die Benutzbarkeit dieser Dienstleistung zu maximieren hatten wir auch eine Webschnittstelle entwurfen, die in \href{https://www.rostlab.org/}{folgender Addresse} verf\"ugbar ist.
 }
 
 \clearpage % Start a new page
@@ -161,7 +179,12 @@ The Thesis Abstract is written here (and usually kept to just this page). The pa
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-The acknowledgements and the people to thank go here, don't forget to include your project advisor\ldots
+First and mostly, I would like to thank Prof. Burkhard Rost for the holistic supports provided, be it through the lab infrastructures or himself personally. I would also to thank two of my advisors, Dr. Guy Yachdav and Juan Miguel Cajuela, who have in spite of their busy schedules and great distances (and time differences) patently advised me through the project. Knowing that both are about to finish their PhD programs, I wish them all the best of luck in their future endeavors.
+
+Also, I would like to thank Tatyana Goldberg for administrative support during my stay at the lab. Also my gratitude for Tim Karl, our awesome system administrator, who has helped us tremendously in incorporating each of the cogs in our pipeline into one coherent system. While not involved in our project personally, I would like to thank Prof. Lars Juhl Jensen of University of Copenhagen for giving us access to his tagger program. 
+
+Finally I would also thank all Rostlab members and its extensions, without whom this work would all but possible.
+
 }
 \clearpage % Start a new page
 
