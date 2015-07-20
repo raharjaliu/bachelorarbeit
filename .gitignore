@@ -1,11 +1,23 @@
-# Tailored gitignore for this project. Do not use this for other TeX project
-
-# project specific ignore
-BA_rumpf*
-deckblattAbschlussarbeitBioinformatik2.sty
-
-# common TeX ignore
 *.aux
+*.glo
+*.idx
 *.log
-*.pdf
-*.gz
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.synctex.gz

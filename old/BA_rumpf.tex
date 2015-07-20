@@ -1,0 +1,121 @@
+\documentclass[a4paper, % verwende A4-Papier
+  12pt, % Schriftgrösse 11
+  twoside
+  ]{report} % Dokumenttyp: scrartcl (vgl. scrguide.pdf)
+
+% Stelle Editor-Encoding ein (= wie werden die Dateien im Editor abgespeichert)
+% Bei einigen Editoren kann das Dateiformat eingestellt werden, andere
+% speichern automatisch in einem bestimmten Format
+\usepackage["utf8"]{inputenc}
+% ersetze "encoding" durch (im Editor nachschauen, im Zeifelsfall ausprobieren):
+  % latin1 = oftmals Standard
+  % utf8 = bei manchen Linux/Unix
+  % ansinew = Windows
+  % applemac = Macintosh
+\usepackage[final]{graphicx}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+%\fontfamily{phv}\selectfont
+% wähle Neudeutsch als Sprache (für Trennregeln)
+\usepackage[english]{babel}
+\usepackage{float}
+\usepackage[paper=a4paper,left=25mm,right=25mm]{geometry}
+\usepackage{amsmath}
+\numberwithin{figure}{chapter}
+% wähle Vektorschriften, falls vorhanden
+\usepackage[T1]{fontenc}
+\usepackage{rotating}
+\usepackage{deckblattAbschlussarbeitBioinformatik2}
+%\usepackage[color]{deckblattAbschlussarbeitBioinformatik2}
+
+
+
+
+\usepackage{fancyhdr}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[RE,LO]{\leftmark}
+%\rohead{\leftmark}
+%\lehead{\leftmark}
+%\lohead{\thepage}
+%\rehead{\thepage}
+%\setcounter{page}{4}
+%\rfoot{Page \thepage}
+%\usefont{T1}{phv}{m}{sc}
+% Die verwendeten Paketversionen im *.log-File ausgeben
+\listfiles
+\makeindex
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+\pagestyle{empty}
+\maketitlepage{Bachelor Thesis}
+
+\end{titlepage}
+%\newpage
+%\pagenumbering{roman}
+%\pagestyle{fancy}
+%\newpage
+%\thispagestyle{empty}
+%\textbf{ }
+\newpage
+\thispagestyle{empty}
+\textbf{ }
+\newline
+{\Large\textbf{Abstract\\\\}}
+%\begin{abstract}%\end{abstract}
+%\textbf{Integration of human metabolome wide association studies to estimate specificities of metabolite markers for individual human phenotypes\\\\}
+Several types of studies give insight on the complex mechanisms that underlie human phenotype development. They focus on the results of a detailed examination of genotype, metabolite concentrations (metabotype) and phenotype and their coherence, based on data collected from a high number of test subjects (a cohort) under fix circumstances.
+For instance, metabolome wide association studies (MWAS) aim to identify and characterize the relation between variation of metabolite concentrations and variation of phenotypes. Statistical methods are used to identify biomarkers (metabolites seen as indicative of a certain phenotype) by finding metabolites for which the concentration associates significantly to the phenotype. Furthermore, genome-wide association studies of metabolite concentrations (mGWAS) examine associations between genotype, represented by single nucleotide polymorphisms (SNPs), and metabolite concentrations. Genome-wide association studies (GWAS) examine the genetic component of phenotype development by analysing associations between genotype (SNPs) and phenotypes. The concentration of metabolites can be analysed using either a targeted or a non-targeted approach. While the targeted approach sets its sight on a pre-defined set of metabolites, the non-targeted approach quantifies as many metabolites as possible in a sample, without knowledge about their identity. This allows to broaden the range of potential biomarkers.\\
+Since the scope of a single metabolomic study is not limitless, a replication and comparison in different studies is necessary for biomarker findings. This can be achieved by a compilation of multiple studies in an integrative analysis. Therefore, in this thesis an existing database containing metabolite-phenotype, metabolite-SNP and SNP-phenotype association data from several (targeted) studies was modified in order to integrate data from non-targeted MWAS. The additional data stems from five MWAS and one mGWAS and includes negative information, i.e. data on metabolites that do not show significant association to an investigated phenotype.\\
+On this basis, several analyses are performed. First, in order to characterize their suitability as biomarkers, metabolites are examined on how specific they are associated with phenotypes. Then, metabolites and phenotypes are clustered based on the data from the MWAS. In addition, a combination of metabolite-SNP and SNP-phenotype associations is used to predict metabolite-phenotype associations. A comparison with associations that are also found in the MWAS data is used to gain insight on the role of genetic factors in metabolite-phenotype associations. As a result, metabolites measured in non-targeted studies tend to be associated more specifically with phenotypes. The clustering of phenotypes based on MWAS data shows a clear representation of their known relations. %Furthermore, the metabolite-phenotype associations that were predicted via SNPs overlap with the associations described in the MWAS.
+Furthermore, it was possible to infer several metabolite-phenotype associations described in the MWAS by prediction via SNPs.
+%Furthermore, several metabolite-phenotype associations described in the MWAS were predicted by combination of data from mGWAS and GWAS.
+%\end{abstract}
+\newpage
+\thispagestyle{empty}
+\textbf{ }
+\newpage
+\thispagestyle{empty}
+\textbf{ }
+\newline
+{\Large\textbf{Zusammenfassung\\\\}}
+%\thispagestyle{empty}
+%\textbf{Zusammenfassung\\}
+%\textbf{Integration von metabolomweiten Assoziationsstudien zur Einschätzung der Spezifität von Metaboliten als Marker für menschliche Phänotypen}
+Verschiedene Arten von Studien geben Einblick in die komplexen Mechanismen, die der Entwicklung menschlicher Phänotypen zugrunde liegen. Der Fokus dieser Studien liegt auf der Untersuchung von Genotyp, Metaboliten-Konzentrationen (Metabotyp) und Phänotyp und deren Zusammenhängen, basierend auf Daten einer hohen Zahl an Patienten (Kohorte) unter festen Rahmenbedingungen.
+Das Ziel von Metabolomweiten Assoziationsstudien (MWAS) ist die Identifikation und Charakterisierung der Zusammenhänge zwischen Metabolitenkonzentration und Phänotypen. Statistische Methoden werden angewandt, um Biomarker (Metaboliten, die auf einen bestimmten Phänotypen hindeuten) zu identifizieren, indem Metaboliten gesucht werden, deren Konzentration signifikant mit einem Phänotyp assoziiert ist. In Genomweiten Assoziationsstudien der Metaboliten-Konzentration (mGWAS) wird die Assoziation zwischen Genotyp, repräsentiert durch SNPs, und Metaboliten-Konzentrationen untersucht.
+In Genomweiten Assoziationsstudien (GWAS) wird die genetische Komponente der Phänotypentwicklung durch Analyse der Assoziationen zwischen SNPs und Phänotypen untersucht.
+Die Konzentration von Metaboliten kann sowohl targeted als auch non-targeted untersucht werden. Während im targeted Ansatz ein vorher definiertes Set an Metaboliten untersucht wird, werden im non-targeted Ansatz in einer Probe so viele Metaboliten wie möglich untersucht, ohne deren Identität zu kennen. Dies vergrößert die Zahl an potentiellen Biomarkern.\\
+Da der Horizont einer einzelnen MWAS nicht unbegrenzt ist, ist eine Wiederholung und der Vergleich mit anderen Studien nötig. Hierfür ist eine integrative Analyse verschiedener Studien sinvoll.
+% Dies kann in einer Integrative Analyse verschiedener Studien getan werden.
+Daher wird in dieser Arbeit eine bestehende Datenbank, welche Metabolit-Phänotyp, Metabolit-SNP und SNP-Phänotyp-Assoziationen aus verschiedenen (targeted) Studien enthält, angepasst und um Daten aus fünf non-targeted MWAS und einer MWAS erweitert. Diese Daten beinhalten Negativinformationen.\\
+Auf dieser Grundlage werden verschiedene Analysen durchgeführt. Zunächst werden die Metaboliten auf ihre Spezifität bezüglich der Assoziation mit Phänotypen untersucht, was Hinweise auf ihre Eignung als Biomarker gibt. Dann wird basierend auf den Daten aus den MWAS ein Clustering von Metaboliten und Phänotypen erstellt. Zusätzlich werden Metabolit-Phänotyp-Assoziationen mittels einer Kombination von Metabolit-SNP und SNP-Phänotyp-Assoziationen vorhergesagt und mit Assoziationen verglichen, die in den MWAS beobachtet wurden, um Einblick in die genetischen Faktoren von Metabolit-Phänotyp-Assoziationen zu gewinnen. Dabei zeigt sich, dass Metaboliten in non-targeted Studien tendenziell spezifischer mit Phänotypen assoziiert sind. Das Clustering der Phänotypen, basierend auf MWAS-Daten, spiegelt klar die bekannten biologischen Beziehungen zwischen den Phänotypen wider. Darüber hinaus ist es möglich, über SNPs Metabolit-Phänotyp-Assoziationen vorherzusagen, welche auch in MWAS beschrieben wurden.
+\newpage
+\thispagestyle{empty}
+\textbf{ }
+\clearpage
+\pagenumbering{roman}
+\thispagestyle{plain}
+%\addtocontents{toc}{\protect\enlargethispage{\baselineskip}}
+%\footrulewidth{0pt}
+{\small\tableofcontents}
+%\clearpage\pagestyle{headings}
+%\addtocontents{toc}{~\vspace{-3\baselineskip}}
+\newpage
+\thispagestyle{empty}
+\textbf{ }
+%\newpage
+%\thispagestyle{empty}
+%\textbf{ }
+\newpage
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\chapter{Introduction}
+
+
+%\includegraphics ganz normal.
+
+\includegraphics[width=12cm]{workflowgraph3.eps}
