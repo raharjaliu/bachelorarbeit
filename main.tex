@@ -127,20 +127,20 @@ Date:\\
 %	QUOTATION PAGE
 %----------------------------------------------------------------------------------------
 
-%
-%\pagestyle{empty} % No headers or footers for the following pages
-%
-%\null\vfill % Add some space to move the quote down the page a bit
-%
-%\textit{``Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism."}
-%
-%\begin{flushright}
-%Dave Barry
-%\end{flushright}
-%
-%\vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
 
-%\clearpage % Start a new page
+\pagestyle{empty} % No headers or footers for the following pages
+
+\null\vfill % Add some space to move the quote down the page a bit
+
+\textit{``People usually think that progress consists in the increase of knowledge, in the improvement of life, but that isn't so. Progress consists only in the greater clarification of answers to the basic questions of life. The truth is always accessible to a man. It can't be otherwise, because a man's soul is a divine spark, the truth itself. It's only a matter of removing from this divine spark (the truth) everything that obscures it. Progress consists, not in the increase of truth, but in freeing it from its wrappings. The truth is obtained like gold, not by letting it grow bigger, but by washing off from it everything that isn't gold."}
+
+\begin{flushright}
+L. N. Tolstoy
+\end{flushright}
+
+\vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
+
+\clearpage % Start a new page
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
@@ -160,7 +160,18 @@ these to user. For the good usability we offer the whole service in a web interf
 
 \clearpage % Start a new page
 
+\addtotoc{Zusammenfassung} % Add the "Abstract" page entry to the Contents
 
+\zusammenfassung{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\textbf{Hintergrund}\\
+In genetischer Forschung ist es erzwingend, dass der/die biomedische ForscherIn mit der aktuellen Landschaft von identifizierten Protein sich st\"andig informiert. Es war schwierig -- und wird immer schwieriger sein, vor allem nach dem verbreiteten Ansatz von Next Generation Sequencing (NGS) Technoligien, um der/die Forscherin mit dem Protein von der Interesse in aktuellem Zustand zu halten. Die Tatsache, dass die aktuelle Suchmaschine von den Artikeln nur Namenbasierte Suche unterst\"utzt, hilft leider nicht weiter.\\
+\noindent
+\textbf{Methoden}\\
+In diesem Projekt stellen wir eine Suchmaschine vor, die erlaubt den Ben\"utzer, basiert auf Aminos\"auresequenz nach den Artikeln suchen, die das Protein oder die \"Ahnliche erw\"ahnen. Um dies zu erreichen hatten wir einen Solr Index erstellt, der alle erw\"ahnte Proteine innerhalb jedes MEDLINE Artikels auflistet. Wir f\"ullen sich diesen Index in dem wir den gesamten MEDLINE Corpus durchscannen und alle Proteinname mithilfe eines NLP-Programs detektieren. Wir wurden dann diese Namen in UniProt IDs normalisieren. Diese normalisierte Namen wurden schlielich in unserem Solr Index hinzuf\"ugen. Um die Benutzbarkeit dieser Dienstleistung zu maximieren hatten wir auch eine Webschnittstelle entwurfen, die in \href{https://www.rostlab.org/}{folgender Addresse} verf\"ugbar ist.
+}
+
+\clearpage % Start a new page
 
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
@@ -175,7 +186,6 @@ First and mostly, I would like to thank Prof. Burkhard Rost for the holistic sup
 Also, I would like to thank Tatyana Goldberg for administrative support during my stay at the lab. Also my gratitude for Tim Karl, our awesome system administrator, who has helped us tremendously in incorporating each of the cogs in our pipeline into one coherent system. While not involved in our project personally, I would like to thank Prof. Lars Juhl Jensen of University of Copenhagen for giving us access to his tagger program. 
 
 Finally I would also thank all Rostlab members and its extensions, without whom this work would all but possible.
-
 }
 \clearpage % Start a new page
 
@@ -194,18 +204,7 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 \lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
 \listoftables % Write out the List of Tables
 
-%-------------------------------\addtotoc{Zusammenfassung} % Add the "Abstract" page entry to the Contents
-
-\zusammenfassung{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
-
-\textbf{Hintergrund}\\
-In genetischer Forschung ist es erzwingend, dass der/die biomedische ForscherIn mit der aktuellen Landschaft von identifizierten Protein sich st\"andig informiert. Es war schwierig -- und wird immer schwieriger sein, vor allem nach dem verbreiteten Ansatz von Next Generation Sequencing (NGS) Technoligien, um der/die Forscherin mit dem Protein von der Interesse in aktuellem Zustand zu halten. Die Tatsache, dass die aktuelle Suchmaschine von den Artikeln nur Namenbasierte Suche unterst\"utzt, hilft leider nicht weiter.\\
-\noindent
-\textbf{Methoden}\\
-In diesem Projekt stellen wir eine Suchmaschine vor, die erlaubt den Ben\"utzer, basiert auf Aminos\"auresequenz nach den Artikeln suchen, die das Protein oder die \"Ahnliche erw\"ahnen. Um dies zu erreichen hatten wir einen Solr Index erstellt, der alle erw\"ahnte Proteine innerhalb jedes MEDLINE Artikels auflistet. Wir f\"ullen sich diesen Index in dem wir den gesamten MEDLINE Corpus durchscannen und alle Proteinname mithilfe eines NLP-Programs detektieren. Wir wurden dann diese Namen in UniProt IDs normalisieren. Diese normalisierte Namen wurden schlielich in unserem Solr Index hinzuf\"ugen. Um die Benutzbarkeit dieser Dienstleistung zu maximieren hatten wir auch eine Webschnittstelle entwurfen, die in \href{https://www.rostlab.org/}{folgender Addresse} verf\"ugbar ist.
-}
-
-\clearpage % Start a new page---------------------------------------------------------
+%---------------------------------------------------------
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
 
@@ -216,7 +215,8 @@ In diesem Projekt stellen wir eine Suchmaschine vor, die erlaubt den Ben\"utzer,
 \lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
 \listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
 {
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
+\textbf{BLAST} & \textbf{B}asic \textbf{A}lignment \textbf{S}earch \textbf{T}ools\\
+\textbf{MEDLINE} & \textbf{Med}ical \textbf{Li}terature Analysis Retrieval Onli\textbf{ne}
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
 }
 
@@ -224,35 +224,35 @@ In diesem Projekt stellen wir eine Suchmaschine vor, die erlaubt den Ben\"utzer,
 %	PHYSICAL CONSTANTS/OTHER DEFINITIONS
 %----------------------------------------------------------------------------------------
 
-\clearpage % Start a new page
+%\clearpage % Start a new page
 
-\lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
+%\lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
 
-\listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
-{
-Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
+%\listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
+%{
+%Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
 % Constant Name & Symbol & = & Constant Value (with units) \\
-}
+%}
 
 %----------------------------------------------------------------------------------------
 %	SYMBOLS
 %----------------------------------------------------------------------------------------
 
-\clearpage % Start a new page
+%\clearpage % Start a new page
 
-\lhead{\emph{Symbols}} % Set the left side page header to "Symbols"
+%\lhead{\emph{Symbols}} % Set the left side page header to "Symbols"
 
-\listofnomenclature{lll} % Include a list of Symbols (a three column table)
-{
-$a$ & distance & m \\
-$P$ & power & W (Js$^{-1}$) \\
+%\listofnomenclature{lll} % Include a list of Symbols (a three column table)
+%{
+%$a$ & distance & m \\
+%$P$ & power & W (Js$^{-1}$) \\
 % Symbol & Name & Unit \\
 
-& & \\ % Gap to separate the Roman symbols from the Greek
+%& & \\ % Gap to separate the Roman symbols from the Greek
 
-$\omega$ & angular frequency & rads$^{-1}$ \\
+%$\omega$ & angular frequency & rads$^{-1}$ \\
 % Symbol & Name & Unit \\
-}
+%}
 
 %----------------------------------------------------------------------------------------
 %	DEDICATION
@@ -262,7 +262,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 \pagestyle{empty} % Page style needs to be empty for this page
 
-\dedicatory{For/Dedicated to/To my\ldots} % Dedication text
+\dedicatory{For Dad, my unsung hero.} % Dedication text
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
@@ -314,6 +314,8 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 \bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
 
-\bibliography{Bibliography} % The references (bibliography) information are stored in the file named "Bibliography.bib"
+\bibliography{Bibliography} 
+
+% The references (bibliography) information are stored in the file named "Bibliography.bib"
 
 \end{document}  
