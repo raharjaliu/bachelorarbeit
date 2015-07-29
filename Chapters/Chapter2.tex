@@ -38,17 +38,25 @@ Further down the road, in 1990, Altschul et al. published the Basic Alignment Re
 \begin{enumerate}
 \item Removal of low complexity regions or sequence repeats from query sequence. Low complexity refers to sequence with few elements.
 \item Creation of k-gram sequences from query sequence.
-\item Listing of possible matching words. Unlike FASTA, which focuses more on common words in database, BLAST focuses more on high scoring words, that is, words that appear more often in the result of step 2.
-
+\item For each word from step 2, listing of possible matching words and selection of high scoring words. Matching words are the all possible combinations of words with same length as the k-gram word. For each possible word a score is calculated, which is based on substitution matrix. The best scoring words are then passed onto next step. This differs from FASTA, which focuses more on common words in database.
+\item Organization of remaining high scoring words into efficient search three. Both step 3 and 4 would be repeated for each word from step 2.
+\item Scanning of database for exact matches with remaining high-scoring words.
+\item Extension of database match to high-scoring-segment pair (HSP). This is done by annealing both ends of match until the matching score begins to decrease.
+\item Listing of all HSPs that are significant enough.
+\item Evaluation of statistical significance of the HSPs. BLAST models statistical significance using Gumbel extreme value distribution \citep{gumbel1954statistical}, in which the probability of observing score $S$ higher than equal to $x$ is defined as $$P(S \leq x) = 1 - exp(-e^{- \lambda (x - \mu)})$$ with $$\mu = log(Km'n')/t$$ The parameters $\mu$ and $K$ are fitted from the distribution of results from high scoring pairs. m' and n' are effective length of the query and database sequences.
+\item Make two or more HSP regions into one alignment. In a given hit sequence from database, the algorithm would attempt merging the regions into one had the score of combined region is larger than individual score.
+\item Computation of sequence alignments using Smith-Walterman Algorithm \citep{smith1981identification}.
 \end{enumerate}
 
-%Nowadays, FASTA not only had added support for amino acids sequence similarity search, but also 
+Nowadays, both FASTA and BLAST were distributed not only locally but also online by various providers such as National Center of Biotechnology Information (NCBI) \footnote{\href{http://blast.ncbi.nlm.nih.gov/Blast.cgi}{\texttt{http://blast.ncbi.nlm.nih.gov/Blast.cgi}}} and European Bioinformatics Institute (EBI) \footnote{\href{http://www.ebi.ac.uk/Tools/sss/wublast/}{\texttt{http://www.ebi.ac.uk/Tools/sss/wublast/}}} \footnote{\href{http://www.ebi.ac.uk/Tools/sss/fasta/}{\texttt{http://www.ebi.ac.uk/Tools/sss/fasta/}}}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
 \section{Natural Language Processing}
+
+The rapid development in sequence similarity search coupled with explosion of genome-wide sequencing, which was even more augmented by the advent of post-Sanger and -- recently -- New Generation Sequencing (NGS), means that the problem of identifying sequence is more or less explained. There is however one part that is missing from our picture: how to get the information on how the sequence was mentioned in previous publications?
 
 \subsection{Named Entity Recognition}
 
