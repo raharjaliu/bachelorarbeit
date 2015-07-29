@@ -16,7 +16,16 @@ This chapter introduces the concepts and techniques that are relevant throughout
 
 As the title of this thesis already conveyed, the main idea of this project is to bridge the accessibility and knowledge gap between sequence and the main source of knowledge and reference of previous discoveries -- a vast corpora of publications in natural sciences -- through a modern search engine. Given a sequence of amino acids, it would be impossible for a human to directly identify directly the protein, let alone the characteristics and the functions and the characteristics of the protein.
 
-Several attempts on bridging one component of the gap, specifically between sequence and other known sequences, was done in eighties and earlier nineties. In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic acids and amino acids.
+Several attempts on bridging one component of the gap, specifically between sequence and other known sequences, was done in eighties and earlier nineties. In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In general, FASTA takes four steps in computing three scores that characterize sequence similarity \citep{Pearson19905}
+
+\begin{enumerate}
+\item Identify regions with high density of sequence identities and pair identities between two sequences. FASTA Achieve a fast result in this step by using a look up table, a map that describes for each character where it appears within sequence.
+
+\item 
+\end{enumerate}
+
+
+ In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic acids and amino acids.
 
 Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST.
 
