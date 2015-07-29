@@ -18,7 +18,7 @@ As the title of this thesis already conveyed, the main idea of this project is t
 
 Several attempts on bridging one component of the gap, specifically between sequence and other known sequences, was done in eighties and earlier nineties. In 1981, Smith and Walterman published the algorithm computing complete local sequence alignment, which was further improved by Gotoh in 1982 \citep{gotoh1982improved} and Altschul (Altschul and Erickson, 1986 \citep{altschul1986optimal}). This was however deemed too slow, especially if used for the purpose of one-against-all search, which was heavily (and still is) used for sequence-based knowledge discovery in biomedical research.
 
-In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In general, FASTA takes four steps in computing three scores that characterize sequence similarity \citep{Pearson19905}.
+In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In general, FASTA takes four steps in computing three scores that characterize sequence similarity \citep{Pearson19905}:
 
 \begin{enumerate}
 \item Finding identify regions with high density of sequence identities and pair identities between two sequences. FASTA achieved a fast computation in this step by using a look up table, a map that describes for each character where it appears within sequence. In conjunction with the lookup table, FASTA also uses the diagonal method to find 
@@ -33,9 +33,24 @@ all regions of similarity between the two sequences, counting matches and penali
 
 In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic and amino acids.
 
-Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST. The algorithm, like FASTA, is based on heuristics search and is structured in similar manner to BLAST 
+Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST. The algorithm, like FASTA, is based on heuristics search and is structured in similar manner to BLAST. BLAST takes a sequence to search for and a sequence or a set of sequences to search against. In modern usage, the set of sequences is provided by some database. The algorithm would then run in following main steps\citep{mount2001bioinformatics}:
+
+\begin{enumerate}
+\item Removal of low complexity regions or sequence repeats from query sequence. Low complexity refers to sequence with few elements.
+\item Creation of k-gram sequences from query sequence.
+\item Listing of possible matching words. Unlike FASTA, which focuses more on common words in database, BLAST focuses more on high scoring words, that is, words that appear more often in the result of step 2.
+
+\end{enumerate}
 
 %Nowadays, FASTA not only had added support for amino acids sequence similarity search, but also 
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Natural Language Processing}
+
+\subsection{Named Entity Recognition}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
