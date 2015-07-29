@@ -12,24 +12,30 @@ This chapter introduces the concepts and techniques that are relevant throughout
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{BLAST}
+\section{FASTA and BLAST}
 
 As the title of this thesis already conveyed, the main idea of this project is to bridge the accessibility and knowledge gap between sequence and the main source of knowledge and reference of previous discoveries -- a vast corpora of publications in natural sciences -- through a modern search engine. Given a sequence of amino acids, it would be impossible for a human to directly identify directly the protein, let alone the characteristics and the functions and the characteristics of the protein.
 
-Several attempts on bridging one component of the gap, specifically between sequence and other known sequences, was done in eighties and earlier nineties. In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In general, FASTA takes four steps in computing three scores that characterize sequence similarity \citep{Pearson19905}
+Several attempts on bridging one component of the gap, specifically between sequence and other known sequences, was done in eighties and earlier nineties. In 1981, Smith and Walterman published the algorithm computing complete local sequence alignment, which was further improved by Gotoh in 1982 \citep{gotoh1982improved} and Altschul (Altschul and Erickson, 1986 \citep{altschul1986optimal}). This was however deemed too slow, especially if used for the purpose of one-against-all search, which was heavily (and still is) used for sequence-based knowledge discovery in biomedical research.
+
+In 1985, Lipman and Pearson published the first paper mentioning the DNA and protein sequence alignment program FASTA \citep{Lipman85}. During the first publication, FASTA was designed and intended to search for similar protein sequences. It takes a sequence of amino acids and searches against entries within a corresponding database by using local sequence alignment to find similar sequences. In general, FASTA takes four steps in computing three scores that characterize sequence similarity \citep{Pearson19905}.
 
 \begin{enumerate}
-\item Identify regions with high density of sequence identities and pair identities between two sequences. FASTA Achieve a fast result in this step by using a look up table, a map that describes for each character where it appears within sequence.
+\item Finding identify regions with high density of sequence identities and pair identities between two sequences. FASTA achieved a fast computation in this step by using a look up table, a map that describes for each character where it appears within sequence. In conjunction with the lookup table, FASTA also uses the diagonal method to find 
+all regions of similarity between the two sequences, counting matches and penalizing for intervening mismatches. This diagonal could be visually seen in two sequence alignment as series of matches ('dots') in match matrix between two sequences.
 
-\item 
+\item Rescanning of the 10 regions with highest sequence identities using PAM250 matrix. PAM250 matrix refers to assumed point accepted mutation (PAM) matrix after 250 mutations, which is basically the 250-th power of initial PAM matrix. The probability of each entry within PAM matrix was acquired from analysis of phylogenetic trees (Dayhoff, 1978 \citep{Dayhoff1978model}).
+
+\item Annealing of both ends of alignment and calculating similarity score is the sum of the joined initial regions minus a penalty (usually 20) for each gap \citep{Pearson19905}.
+
+\item Construction of optimal alignment using Needleman-Wunsch Algorthm \citep{needleman1970general} on the best matching region. The program would then return the similarity score of this alignment along with the best score from step 2 and 3.
 \end{enumerate}
 
+In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic and amino acids.
 
- In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic acids and amino acids.
+Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST. The algorithm, like FASTA, is based on heuristics search and is structured in similar manner to BLAST 
 
-Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST.
-
-Nowadays, FASTA not only had added support for amino acids sequence similarity search, but also 
+%Nowadays, FASTA not only had added support for amino acids sequence similarity search, but also 
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
