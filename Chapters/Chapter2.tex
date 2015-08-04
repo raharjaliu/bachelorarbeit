@@ -65,7 +65,40 @@ In this thesis we would make use of one aspect of natural language processing: n
 \subsection{Named Entity Recognition}
 
 
-The term named entity recognition was first coined at the Sixth Message Understanding Conference (MUC-6) in 1996 \citep{nadeau2007survey} \citep{grishman1996message}. TODO cite more from Nadeau
+The term named entity recognition was first coined at the Sixth Message Understanding Conference (MUC-6) in 1996 \citep{nadeau2007survey} \citep{grishman1996message}. The problem statement of named entity recognition roughly goes as follow:
+
+\begin{center}
+\textit{Given an input text, locate and classify elements of text according to defined categories of entity (a Named Entity)}
+\end{center}
+
+The pre-defined set of categories range from unique identifier such as name and location to expression of times and numeric values such as date and percent expression \citep{nadeau2007survey}. To take an example, consider the first paragraph of following recent article from the Wall Street Journal \footnote{\texttt{\href{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}}}:
+
+\begin{displayquote}
+{\Large Uber Valued at More Than \$50 Billion}
+
+
+\textbf{Ride-sharing app, which just closed a funding round, reaches mark faster than Facebook}
+
+Uber Technologies Inc. has completed a new round of funding that values the five-year-old ride-hailing company at close to \$51 billion, according to people familiar with the matter, equaling Facebook Inc.’s record for a private, venture-backed startup.
+
+\end{displayquote}
+
+A named entity recognition program trained for company names and monetary values would identify and tag following annotations from the text:
+
+\begin{displayquote}
+{\Large \textbf{Uber} \texttt{(company)} Valued at More Than  \textbf{\$50 Billion } \texttt{(monetary\_value)}}
+
+
+\textbf{Ride-sharing app, which just closed a funding round, reaches mark faster than \textbf{Facebook} \texttt{(company)}}
+
+\textbf{Uber Technologies Inc.} has completed a new round of funding that values the five-year-old ride-hailing company at close to \textbf{\$51 billion} \texttt{(monetary\_value)}, according to people familiar with the matter, equaling \textbf{Facebook Inc.} \texttt{(company)}’s record for a private, venture-backed startup.
+
+\end{displayquote}
+
+Here we see how various formats of company names could be tagged in this hypothetical case. Indeed, a good named-entity recognition tagger should be able to perform exactly this kind of task.
+
+During the time named entity recognition was used 
+TODO cite more from Nadeau
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
