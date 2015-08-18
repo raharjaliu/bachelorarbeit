@@ -33,7 +33,7 @@ all regions of similarity between the two sequences, counting matches and penali
 
 In 1988, Pearson and Lipman improved the software by adding support and improvement, among others, for nucleic acid similarity search, translated nucleic acid search \citep{PearsonLipman88}. This allowed researchers to do trans-domain search between nucleic and amino acids.
 
-Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Tool \citep{Altschul90}, better known in its acronym as BLAST. The algorithm, like FASTA, is based on heuristics search and is structured in similar manner to BLAST. BLAST takes a sequence to search for and a sequence or a set of sequences to search against. In modern usage, the set of sequences is provided by some database. The algorithm would then run in following main steps\citep{mount2001bioinformatics}:
+Further down the road, in 1990, Altschul et al. published the Basic Alignment Research Too \citep{Altschul90}, better known in its acronym as BLAST. The algorithm, like FASTA, is based on heuristics search and is structured in similar manner to BLAST. BLAST takes a sequence to search for and a sequence or a set of sequences to search against. In modern usage, the set of sequences is provided by some database. The algorithm would then run in following main steps \citep{mount2001bioinformatics}:
 
 \begin{enumerate}
 \item Removal of low complexity regions or sequence repeats from query sequence. Low complexity refers to sequence with few elements.
@@ -58,7 +58,7 @@ Nowadays, both FASTA and BLAST were distributed not only locally but also online
 
 The rapid development in sequence similarity search coupled with explosion of genome-wide sequencing, which was even more augmented by the advent of post-Sanger and -- recently -- New Generation Sequencing (NGS), means that the problem of identifying sequence is more or less explained. There is however one part that is missing from our picture: how to get the information on how the sequence was mentioned in previous publications?
 
-Come Natural Language Processing (NLP). Natural Language Processing is a interdisciplinary field that deals with the interaction between computer and human languages (hence the natural language). The aspects of natural languages such as named entities recognition (NER) \citep{nadeau2007survey}, morphological segmentation \citep{meyer1990morphological}, speech recognition and analysis \citep{rabiner1993fundamentals} fall into the auspice of natural language processing. The methods used in natural language processing is mostly statistical-based \citep{manning1999foundations} and some of the methods have been known to be used in other fields such as Conditional Random Fields \citep{sutton2006introduction} and its special case Hidden Markov Chain, which is one of the more commonly used methods in bioinformatics (e.g. Salzberg, et al. \citep{salzberg1998microbial} and Burge , et al. \citep{burge1998modeling}).
+Come Natural Language Processing (NLP). Natural Language Processing is a interdisciplinary field that deals with the interaction between computer and human languages (hence the natural language). The aspects of natural languages such as named entities recognition (NER) \citep{nadeau2007survey}, morphological segmentation \citep{meyer1990morphological}, speech recognition and analysis  \citep{rabiner1993fundamentals} fall into the auspice of natural language processing. The methods used in natural language processing is mostly statistical-based \citep{manning1999foundations} and some of the methods have been known to be used in other fields such as Conditional Random Fields \citep{sutton2006introduction} and its special case Hidden Markov Chain, which is one of the more commonly used methods in bioinformatics (e.g. Salzberg, et al. \citep{salzberg1998microbial} and Burge, et al. \citep{burge1998modeling}).
 
 In this thesis we would make use of one aspect of natural language processing: named entity recognition (NER).
 
@@ -97,13 +97,31 @@ A named entity recognition program trained for company names and monetary values
 
 Here we see how various formats of company names could be tagged in this hypothetical case. Indeed, a good named-entity recognition tagger should be able to perform exactly this kind of task.
 
-During the time named entity recognition was used 
-TODO cite more from Nadeau
+There are various ways of implementing Named Entity Recognition (NER), all ranging from supervised, semi-supervised to unsupervised learning \citep{nadeau2007survey}. Nowadays, most NER relies on supervised learning methods \citep{nadeau2007survey} such as Hidden Markov Model (HMM) \citep{bikel1997nymble}, Decission Trees \citep{sekine1998decision}, Maximum Entropy Model \citep{borthwick1998exploiting}, Support
+Vector Machines (SVM) \citep{asahara2003japanese} and Conditional Random Fields (CRF)\citep{mccallum2003early}, which is a discriminative generalization of HMM\citep{lafferty2001conditional}.
+
+In this project, we attempted on two distinct NER implementations: \textbf{DNorm}in the earlier phase and non-publicly available NER tagger given to us by Lars Juhl Jensen at University of Copenhagen (which would for our convenience would be called \textbf{Lars Tagger} or \textbf{PubSeq NER Tagger} from now on) later on. DNorm (Leaman and Lu, 2013 \citep{leaman2013dnorm}) is a NER designed to tag and normalize disease names within PubMed abstract. Given a PubMed abstract text, it tags the disease entities within text and normalize said entities into standardized form (in this case, MEDIC concepts \citep{davis2012medic}). The tagging component of DNorm is based on BANNER, which in turn is a CRF-based NER tagger \citep{leaman2008banner}. To normalize the entities, the program utilizes pairwise approach of Learning to Rank \citep{liu2009learning} (see, for example, Joachims 2002 \citep{joachims2002optimizing}, which is used to rank the results of web search). The idea of ranking as a method of normalization could indeed be explained analogously in light of search engine itself, given a tagged string $s$, a set of standardized entity names $N$ and a scoring function $M(s, n) \in R$, we would like to find out to which standardized name this string maps best to.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics{Figures/dnorm.jpg}
+    \rule{35em}{0.5pt}
+  \caption[Overview of DNorm pipeline]{Overview of DNorm pipeline. The figure was taken from Leaman, Dogan and Lu, 2013 \citep{leaman2013dnorm}.}
+  \label{fig:DNorm}
+\end{figure}
+
+The reason why we initially resorted to DNorm is because of its good performance with regard to precision, recall and F-measure \citep{leaman2013dnorm}. Also, the underlying tagging mechanism BANNER appeared to perform well in BioCreative benchmarks for tagging various biological entities, most notably gene names \citep{smith2008overview} \citep{leaman2008banner}. Trying to extend DNorm to support gene names recognition \textit{and normalization}, however, proved to be very difficult. We figured out that there was no publicly available data set that we could use to train our model for gene normalization. Secondly, since the DNorm uses matrix to represents both the normalization and similarity model \citep{leaman2013dnorm}, creating matrix models for the whole set of proteins would have the program create a matrix with millions of row -- which wouldn't scale in normal cluster environment. Also, the fact that DNorm was optimized for disease names means that there is no guarantee that the resulting benchmark for protein names would be as good as disease tagging and normalization benchmark.
+
+Later on, we switched to Lars Tagger. Unlike NER methods that are already mentioned in this chapter, our current NER Tagger relies on mapping between normalized entity names and their corresponding alternative names to annotate and normalize named entities within in the text. It checks whether a part of text closely resembles one or more elements in the mapping. It would then calculate the probability of the part of text being the instance of one of the entities (see more on Chapter \ref{Chapter3}). While there is no publication specifically dedicated for gene annotations, the underlying engine was used to tag and annotate taxonomic names in PubMed text (Pacifilis, et al., 2013 \citep{pafilis2013species}). Moreover, we used part of STRING database \citep{szklarczyk2011string} as the dictionary between normalized entity names and its variation of names that would be used to identify named entities in text and at the same time normalize them.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2
+%	SECTION 3
 %----------------------------------------------------------------------------------------
 
 \section{Previous Works}
 
-There are several previous works that we are aware of that try to tackle similar problems. 
+There are several publications and tools that attempt on similar goals as we do that have not been reviewed in previous section. While we are not aware of other project that realized end-to-end article search based on sequence, there are several (very successful) attempts on doing parts of it.
+
+In the realm of \textbf{gene/protein names tagging and/or normalization}, there are various programs that are known to tag and normalize well such as GNAT (Hackenberg, et al. 2011 \citep{hakenberg2011gnat}), ABNER (Burr, 2015 \citep{settles2005abner}) and LINNEAUS (Gerner, et al. 2010 \citep{gerner2010linnaeus}). The latter was originally designed to detect and annotate taxonomy names within text.
+
+For searching for protein mentions within PubMed corpus we are for example aware of. Given a UniProtKB-ID, a user can search for the list of articles mentioning the protein. User could, for example, search articles \href{http://www.uniprot.org/citationmapping/?query=uniprot:P04637}{that mention human tumor protein P53 (\texttt{P53\_HUMAN})}. We are unfortunately not aware how it was done (manually annotated or done using NLP methods) or whether it covers only parts of article that are visible within PubMed corpus or the whole article.
