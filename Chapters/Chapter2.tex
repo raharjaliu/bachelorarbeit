@@ -48,10 +48,40 @@ Further down the road, in 1990, Altschul et al. published the Basic Alignment Re
 \item Computation of sequence alignments using Smith-Walterman Algorithm \citep{smith1981identification}.
 \end{enumerate}
 
-Nowadays, both FASTA and BLAST were distributed not only locally but also online by various providers such as National Center of Biotechnology Information (NCBI) \footnote{\href{http://blast.ncbi.nlm.nih.gov/Blast.cgi}{\texttt{http://blast.ncbi.nlm.nih.gov/Blast.cgi}}} and European Bioinformatics Institute (EBI) \footnote{\href{http://www.ebi.ac.uk/Tools/sss/wublast/}{\texttt{http://www.ebi.ac.uk/Tools/sss/wublast/}}} \footnote{\href{http://www.ebi.ac.uk/Tools/sss/fasta/}{\texttt{http://www.ebi.ac.uk/Tools/sss/fasta/}}}.
+Nowadays, both FASTA and BLAST were distributed not only locally but also online by various providers such as National Center of Biotechnology Information (NCBI) \footnote{\href{http://blast.ncbi.nlm.nih.gov/Blast.cgi}{\texttt{http://blast.ncbi.nlm.nih.gov/Blast.cgi}}, accessed 8/19/2015} and European Bioinformatics Institute (EBI) \footnote{\href{http://www.ebi.ac.uk/Tools/sss/wublast/}{\texttt{http://www.ebi.ac.uk/Tools/sss/wublast/}}, accessed 8/19/2015} \footnote{\href{http://www.ebi.ac.uk/Tools/sss/fasta/}{\texttt{http://www.ebi.ac.uk/Tools/sss/fasta/}}, accessed 8/19/2015}.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{UniProt}
+
+UniProt (\textit{Universal Protein Resource} \citep{uniprot2008universal}) is platform containing various high quality databases that are essential in bioinformatics research. A joint venture between European Bioinformatics Institute (EBI), Swiss Bioinformatics Institute (SBI) and Protein Information Resources (PIR), it provide four main sets of database: 
+
+\begin{itemize}
+\item \textbf{UniProt KnowledgeBase (UniProtKB)}, containing protein database. Our database of interest in this system, there are two main constituents of UniProtKB: the manually annotated, reviewed UniProtKB/SwissProt and automatically entried, unreviewed  UniProtKB/TrEMBL. Currently, there are 549,008 reviewed and 50,011,027 unreviewed protein sequences within the UniProtkB environment\footnote{\href{http://www.uniprot.org/}{\texttt{http://www.uniprot.org/}}, accessed 8/19/2015}. We consider the current ever widening over-representation of unreviewed proteins within the KnowledgeBase be a potential challange in our project going forward.
+
+\item \textbf{UniProt Archieve (UniParc)}, a comprehensive and non-redundant database containing all protein sequences from publicly available protein sequence database\citep{leinonen2004uniprot}. It achieved redundancy by searching for each sequence only once. Multiple matching sequences from various databases would then be merged into one UniParc entry.
+
+\item \textbf{UniProt Reference Cluster (UniRef)}, a set of three databases of clustered sets of proteins. The databases house clusters sets of proteins with 50\% (UniRef50), 80\% (UniRef80) and 90\% (UniRef90) sequence similarity \citep{suzek2007uniref}.
+
+\item \textbf{UniProt Metagenomics and Environmental Data (UniMES)}, a repository for metagenomics and metagenomics sequences. UniMES was initially developed to address issues arising from sequences that are obtained from non-cultured or currently unknown organisms, which are sometimes used in metagenomics studies \citep{uniprot2008universal}. The data from UniMES is included in UniParc but not UniProtKB.
+\end{itemize}
+
+Each entry within UniProt main databases possesses a unique identifier. For UniProtKB, every entry within the database is associated with both UniProtKB accession number (UniProtKB-AC) and UniProtKB identifier (UniProtKB-ID). In this project, we use not only UniProtKB-ID as the identifier of choice when it comes to UniProt, but also as our main project identifier protein names. That is, a protein is always identified with UniProtKB-ID within our search engine, each annotation of mentions in text would be represented as UniPritKB-ID and our BLAST search will also return UniProtKB-ID. Consequently, this limits our search and indexing space within the scope that is already defined by UniProtKB. However, considering proteins that are of interest to the scientist are almost always already indexed by UniProtKB\citep{leinonen2004uniprot}, we don't really see this issue as potential problem.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{MEDLINE}
+
+MEDLINE contains journal citations and abstracts for biomedical literature around the world \citep{MEDLINE}. It is maintained by U.S. National Library of Medicine and currently houses over 24 millions of journal abstracts and the numbers keep growing along the new publications, which currently clocks at 7 per cent growth per year, which corresponds to over one million new articles in the last years \citep{larsen2010rate}. In MEDLINE environment alone, it adds between 2,000 - 4,000 references each day \citep{MEDLINE}. Last year alone, it added 750,000 new references into its repository \citep{MEDLINE}. The subject of journals that are indexed by MEDLINE ranges from life sciences, behavioral sciences, chemical science and bioengineering. While the overwhelming majority of the references indexed are journal articles, there are several newspaper and magazine entries that are deemed useful as reference in biomedical research. Ninety five percent of the articles are written in English and 84\% have English abstracts written by the authors of the articles.
+
+For most part, a researcher could access MEDLINE through PubMed \footnote{\href{http://www.ncbi.nlm.nih.gov/pubmed}{http://www.ncbi.nlm.nih.gov/pubmed}, accessed 19/08/2015} \citep{MELDINEWeb}. This already covers about about 90\% of its indexed abstracts. For complete access, it offers leasing mechanism. It distributes daily the new references in XML format via FTP protocol. We use this leasing mechanism in our project for intial references collection and daily updates.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
 %----------------------------------------------------------------------------------------
 
 \section{Natural Language Processing}
@@ -62,8 +92,13 @@ Come Natural Language Processing (NLP). Natural Language Processing is a interdi
 
 In this thesis we would make use of one aspect of natural language processing: named entity recognition (NER).
 
-\subsection{Named Entity Recognition}
 
+%-----------------------------------
+%	SUBSECTION 4.1
+%-----------------------------------
+
+
+\subsection{Named Entity Recognition}
 
 The term named entity recognition was first coined at the Sixth Message Understanding Conference (MUC-6) in 1996 \citep{nadeau2007survey} \citep{grishman1996message}. The problem statement of named entity recognition roughly goes as follow:
 
@@ -71,7 +106,7 @@ The term named entity recognition was first coined at the Sixth Message Understa
 \textit{Given an input text, locate and classify elements of text according to defined categories of entity (a Named Entity)}
 \end{center}
 
-The pre-defined set of categories range from unique identifier such as name and location to expression of times and numeric values such as date and percent expression \citep{nadeau2007survey}. To take an example, consider the first paragraph of following recent article from the Wall Street Journal \footnote{\texttt{\href{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}}}:
+The pre-defined set of categories range from unique identifier such as name and location to expression of times and numeric values such as date and percent expression \citep{nadeau2007survey}. To take an example, consider the first paragraph of following recent article from the Wall Street Journal \footnote{\texttt{\href{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}{http://www.wsj.com/articles/uber-valued-at-more-than-50-billion-1438367457}}, accessed 8/19/2015}:
 
 \begin{displayquote}
 {\Large Uber Valued at More Than \$50 Billion}
@@ -112,16 +147,24 @@ In this project, we attempted on two distinct NER implementations: \textbf{DNorm
 
 The reason why we initially resorted to DNorm is because of its good performance with regard to precision, recall and F-measure \citep{leaman2013dnorm}. Also, the underlying tagging mechanism BANNER appeared to perform well in BioCreative benchmarks for tagging various biological entities, most notably gene names \citep{smith2008overview} \citep{leaman2008banner}. Trying to extend DNorm to support gene names recognition \textit{and normalization}, however, proved to be very difficult. We figured out that there was no publicly available data set that we could use to train our model for gene normalization. Secondly, since the DNorm uses matrix to represents both the normalization and similarity model \citep{leaman2013dnorm}, creating matrix models for the whole set of proteins would have the program create a matrix with millions of row -- which wouldn't scale in normal cluster environment. Also, the fact that DNorm was optimized for disease names means that there is no guarantee that the resulting benchmark for protein names would be as good as disease tagging and normalization benchmark.
 
-Later on, we switched to Lars Tagger. Unlike NER methods that are already mentioned in this chapter, our current NER Tagger relies on mapping between normalized entity names and their corresponding alternative names to annotate and normalize named entities within in the text. It checks whether a part of text closely resembles one or more elements in the mapping. It would then calculate the probability of the part of text being the instance of one of the entities (see more on Chapter \ref{Chapter3}). While there is no publication specifically dedicated for gene annotations, the underlying engine was used to tag and annotate taxonomic names in PubMed text (Pacifilis, et al., 2013 \citep{pafilis2013species}). Moreover, we used part of STRING database \citep{szklarczyk2011string} as the dictionary between normalized entity names and its variation of names that would be used to identify named entities in text and at the same time normalize them.
+Later on, we switched to Lars Tagger. Unlike NER methods that are already mentioned in this chapter, our current NER Tagger relies on mapping between normalized entity names and their corresponding alternative names to annotate and normalize named entities within in the text. It checks whether a part of text closely resembles one or more elements in the mapping. It would then calculate the probability of the part of text being the instance of one of the entities (see more on Chapter \ref{Chapter3}). While there is no publication specifically dedicated for gene annotations, the underlying engine was used to tag and annotate taxonomic names in PubMed text (Pacifilis, et al., 2013 \citep{pafilis2013species}). Moreover, we used part of STRING database (Szklarczyk, et al., 2011 \citep{szklarczyk2011string}) as the dictionary between normalized entity names and its variation of names that would be used to identify named entities in text and at the same time normalize them.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 3
+%	SECTION 5
 %----------------------------------------------------------------------------------------
 
 \section{Previous Works}
 
 There are several publications and tools that attempt on similar goals as we do that have not been reviewed in previous section. While we are not aware of other project that realized end-to-end article search based on sequence, there are several (very successful) attempts on doing parts of it.
 
-In the realm of \textbf{gene/protein names tagging and/or normalization}, there are various programs that are known to tag and normalize well such as GNAT (Hackenberg, et al. 2011 \citep{hakenberg2011gnat}), ABNER (Burr, 2015 \citep{settles2005abner}) and LINNEAUS (Gerner, et al. 2010 \citep{gerner2010linnaeus}). The latter was originally designed to detect and annotate taxonomy names within text.
+In the realm of \textbf{gene/protein names tagging and/or normalization}, there are various programs that are known to tag and normalize well such as GNAT (Hackenberg, et al. 2011 \citep{hakenberg2011gnat}), ABNER (Burr, 2015 \citep{settles2005abner}) and LINNEAUS (Gerner, et al. 2010 \citep{gerner2010linnaeus}). The latter was originally designed to detect and annotate taxonomy names within text but is now "intended for general-purpose dictionary matching software"\footnote{\href{http://linnaeus.sourceforge.net/}{\texttt{http://linnaeus.sourceforge.net/}}, accessed 8/19/2015}.
 
-For searching for protein mentions within PubMed corpus we are for example aware of. Given a UniProtKB-ID, a user can search for the list of articles mentioning the protein. User could, for example, search articles \href{http://www.uniprot.org/citationmapping/?query=uniprot:P04637}{that mention human tumor protein P53 (\texttt{P53\_HUMAN})}. We are unfortunately not aware how it was done (manually annotated or done using NLP methods) or whether it covers only parts of article that are visible within PubMed corpus or the whole article.
+For searching for protein mentions within PubMed corpus we are for example aware of. Given a UniProtKB-ID, a user can search for the list of articles mentioning the protein. User could, for example, search articles \href{http://www.uniprot.org/citationmapping/?query=uniprot:P04637}{that mention human tumor protein P53 (\texttt{P53\_HUMAN})}. We are unfortunately not aware how it was done (manually annotated or done using NLP methods) or whether it covers only parts of article that are visible within PubMed corpus or the whole article nor there exists any formal documentation/publication regarding the system.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=6in]{Figures/component_graph.png}
+    \rule{35em}{0.5pt}
+  \caption[Schematic interaction between BLAST, UniProt, MEDLINE and NER Tagger]{Schematic interpretation on how the concepts of BLAST, UniProt, MEDLINE and NER are interrelated.}
+  \label{fig:SchematicInteraction}
+\end{figure}

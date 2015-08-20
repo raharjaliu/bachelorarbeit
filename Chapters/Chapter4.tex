@@ -1,8 +1,55 @@
 % Chapter Template
 
-\chapter{Program Pipeline} % Main chapter title
-
+\chapter{PubSeq tagging Pipeline} % Main chapter title
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\lhead{Chapter 4. \emph{Program Pipeline}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+\lhead{Chapter 4. \emph{PubSeq tagging PipelinePipeline}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+In this chapter, we would discuss various steps belonging to Tagging Pipeline. Following main steps belong to the Tagging Pipeline:
+
+\begin{enumerate}
+\item \textbf{Formatting} downloaded MEDLINE abstract into input files that are compliant with Lars' NER Tagger. \label{itm:TaggingStep1} (1)
+\item \textbf{Named Entity tagging} done by Lars NER Tagger. \label{itm:TaggingStep2} (2)
+\item \textbf{Post-processing} of the results and \textbf{preparation} for the entry into Solr index. \label{itm:TaggingStep3} (3)
+\item \textbf{Updating} of results onto Solr Index. \label{itm:TaggingStep4} (4)
+\end{enumerate}
+
+The processes are then further divided into several single programs:
+
+\begin{itemize}
+\item \texttt{XMLAbstractsFormatter.java}
+\item \texttt{tagcorpus.cxx}
+\item \texttt{AnnotationBackmapper.java}
+\item \texttt{Annotater.java}
+\item \texttt{StatisticsUtils.java}
+\item \texttt{IndexerNew.java}
+\item \texttt{SolrUpdater.java}
+\end{itemize}
+
+The division of the whole pipeline into smaller tasks are reasoned through following arguments:
+\begin{itemize}
+\item The NER Tagger \ref{itm:TaggingStep2} was developed in C++ while we would implement the rest of pipeline (\ref{itm:TaggingStep1}, \ref{itm:TaggingStep3} and \ref{itm:TaggingStep4}) in Java. This means that pre- and post-tagging procedures would have to be implemented separately. Also since the NER Tagger wasn't written by us and therefore support would be very lacking, we would rather leave the NER Tagger as it is.
+\item Related to previous argument: Solr is implemented in Java and its most comprehensive API (written by the developers of the Solr themselves) is written in Java \citep{grainger2014solr}. Therefore using Java in \ref{itm:TaggingStep4} would be almost necessary for various convenience reasons.
+\item The pipeline generally is very memory intensive. During the process, several maps that each would gulp easily teens of gigabyte of memory are utilized. Therefore each step that utilizes such huge maps are all separated into one single routine.
+\item Dividing the pipeline into smaller components would make it easy to debug, since each routine easily takes several minutes if not hours to run. However this also makes expanding features within the Tagging Pipeline more difficult.
+\end{itemize}
+
+Besides processes mentioned above, there is one process that doesn't exactly belong to Tagging Pipeline but is closely coupled and synchronized with it: downloading and storing of MEDLINE abstracts. Both download and maintenance of MEDLINE corpus and the Tagging pipeline would be covered in following sub-chapters.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{MEDLINE Abstracts}
+
+Downloaded MEDLINE abstracts could be found at /mnt/project/rost\_db/medline. There are two sub directories found in the path that are relevant to PubSeq: basline and update. Baseline contains all MEDLINE abstracts that were downloaded up until 24 Jan 2015. Update contains all MEDLINE abstracts that were downloaded afterwards. The MEDLINE abstracts are stored in XML files. The XML format for MEDLINE abstracts currently follow the definition set by NLM (Document Type Definitions or DTD for MEDLINE/PubMed, see here or download here). Please refer to the data definition for further property of the corpus.
+
+
+It had been agreed upon that the MEDLINE will be updated every day at 8 am server time.

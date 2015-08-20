@@ -1,9 +1,53 @@
 % Appendix A
 
-\chapter{Appendix Title Here} % Main appendix title
+\chapter{PubSeq Paths and Source URLs} % Main appendix title
 
 \label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
 
-\lhead{Appendix A. \emph{Appendix Title Here}} % This is for the header on each page - perhaps a shortened title
+\lhead{Appendix A. \emph{PubSeq Paths and Source URLs}} % This is for the header on each page - perhaps a shortened title
 
-Write your Appendix content here.
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Source Codes}
+
+There are several source codes that are relevant to our project:
+
+\begin{itemize}
+\item \href{https://rostlab.informatik.tu-muenchen.de/gitlab/gyachdav/pubseq-crawler}{pubseq-crawler} contains the tagging ('crawler') pipeline of our project. It also contains several scripts that are used in this project (most notably \texttt{annotate\_new.sh} and \texttt{maintenance.sh}.
+\item \href{https://rostlab.informatik.tu-muenchen.de/gitlab/gyachdav/pubseq-frontend}{pubseq-frontend} contains the node.js implementation of our project.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Project Location}
+
+Generally the project will be located at \texttt{/mnt/project/pubseq/} within Rostlab server. The directory is further divided into following categories:
+
+\begin{verbatim}
+- /mnt/project/pubseq
+|- index_input_docs
+|- log
+|- named_entity_tagger
+|- programdata
+|- rundata
+|- solr_index
+|- scripts
+|- stats 
+\end{verbatim}
+
+The overview of each of directories is as follow:
+
+\begin{itemize}
+\item \texttt{index\_input\_docs} contains the files that would be indexed onto Solr. In other words, this directory contains all files that were created during Tagging Pipeline. During the last step of Tagging Pipelines, the program \texttt{SolrUpdater.jar} would point at this directory and index files that match certain pattern of file name.
+\item \texttt{log} contains logs from Tagging Pipeline.
+\item \texttt{named\_entity\_tagger} contains the \textbf{Lars Tagger component} of the Tagging Pipeline.
+\item \texttt{programdata} contains several program-related tab-separated files that would be used and/or produced during the Tagging Pipeline. Note that program-related data is different from run-related data (which are located at \texttt{rundata} in which program-related data remain mostly constant across all runs while run-related data were created during one of the steps within the Tagging Pipeline. 
+\item \texttt{rundata} contains interim results from Tagging Pipeline and other Tagging-related data. Since Tagging Pipelines consist of multiple programs with each taking input and writing output, it is inevitable that there would be several interim values. The Tagging Pipeline is designed to write standardized in-between values. While the files would not be removed upon completion of one Tagging Pipeline run, they would be overwritten during the next run. The interim values wouldn't be backed up in some consistent environment.
+\item \texttt{solr\_index} contains the Solr directory for the project. For readers who are not familiar with Solr, assuming it as "NoSQL Database" would be sufficient. Solr index is self-contained in the way that the only thing that is needed for it to run properly is its own directory (and JDK).
+\item \texttt{scripts} contain scripts that would be run for various purposes. The most essentials of all scripts are the \texttt{annotate\_new.sh} and \texttt{maintenance.sh}. \texttt{annotate\_new.sh} wraps the whole Tagging Pipeline process and calls sequentially each component within the pipeline. \texttt{maintenance.sh} contains the Maintenance Pipeline and like \texttt{annotate\_new.sh} calls each component within Maintenance Pipeline sequentially. Both Tagging and Maintenance Pipelines would be further described in later chapters.
+\item \texttt{stats} is deprecated or might not be necessary for the whole process. It contains some descriptive statistics from the last run of Tagging Pipeline. For each Tagging Pipeline, some set of statistic files were created that more or less describe the nature of the run.
+\end{itemize}
