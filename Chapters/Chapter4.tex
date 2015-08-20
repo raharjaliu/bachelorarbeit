@@ -4,7 +4,7 @@
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\lhead{Chapter 4. \emph{PubSeq tagging PipelinePipeline}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+\lhead{Chapter 4. \emph{PubSeq tagging Pipeline}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -49,7 +49,107 @@ Besides processes mentioned above, there is one process that doesn't exactly bel
 
 \section{MEDLINE Abstracts}
 
-Downloaded MEDLINE abstracts could be found at /mnt/project/rost\_db/medline. There are two sub directories found in the path that are relevant to PubSeq: basline and update. Baseline contains all MEDLINE abstracts that were downloaded up until 24 Jan 2015. Update contains all MEDLINE abstracts that were downloaded afterwards. The MEDLINE abstracts are stored in XML files. The XML format for MEDLINE abstracts currently follow the definition set by NLM (Document Type Definitions or DTD for MEDLINE/PubMed, see here or download here). Please refer to the data definition for further property of the corpus.
+We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Each day, an updated from MEDLINE server is downloaded via FTP protocol onto our server. The update will happen daily at around 8 A.M. server time (CET). The XML format for MEDLINE abstracts currently follow the definition set by NLM
+
+Each update within MEDLINE corpus is formatted as an XML file. The definition of MEDLINE XML file currently follows National Library of Medicine's (NLM) MEDLINE/PubMed Document Type Definition (DTD) \citep{MEDLINEDTD}, which at the time of thesis writing, is currently at the version dated 01/01/2015 \footnote{accessed 8/20/2015}.
 
 
-It had been agreed upon that the MEDLINE will be updated every day at 8 am server time.
+Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
+
+\begin{verbatim}
+<MedlineCitation Owner="NLM" Status="In-Data-Review">
+<PMID Version="1">25976515</PMID>
+<DateCreated>
+<Year>2015</Year>
+<Month>05</Month>
+<Day>26</Day>
+</DateCreated>
+<Article PubModel="Print-Electronic">
+<Journal>
+<ISSN IssnType="Electronic">1474-1741</ISSN>
+<JournalIssue CitedMedium="Internet">
+<Volume>15</Volume>
+<Issue>6</Issue>
+<PubDate>
+<Year>2015</Year>
+<Month>Jun</Month>
+</PubDate>
+</JournalIssue>
+<Title>Nature reviews. Immunology</Title>
+<ISOAbbreviation>Nat. Rev. Immunol.</ISOAbbreviation>
+</Journal>
+<ArticleTitle>Immune modulation ... membrane vesicles.</ArticleTitle>
+<Pagination>
+<MedlinePgn>375-87</MedlinePgn>
+</Pagination>
+<ELocationID EIdType="doi" ValidYN="Y">10.1038/nri3837</ELocationID>
+<Abstract>
+<AbstractText>Gram-negative ... nanotechnologies.</AbstractText>
+</Abstract>
+<AuthorList CompleteYN="Y">
+<Author ValidYN="Y">
+<LastName>Kaparakis-Liaskos</LastName>
+<ForeName>Maria</ForeName>
+<Initials>M</Initials>
+<AffiliationInfo>
+<Affiliation>MIMR-PHI Institute of ..., Australia.</Affiliation>
+</AffiliationInfo>
+</Author>
+<Author ValidYN="Y">
+<LastName>Ferrero</LastName>
+<ForeName>Richard L</ForeName>
+<Initials>RL</Initials>
+<AffiliationInfo>
+<Affiliation>MIMR-PHI Institute of ..., Australia.</Affiliation>
+</AffiliationInfo>
+</Author>
+</AuthorList>
+<Language>eng</Language>
+<PublicationTypeList>
+<PublicationType UI="D016428">Journal Article</PublicationType>
+</PublicationTypeList>
+<ArticleDate DateType="Electronic">
+<Year>2015</Year>
+<Month>05</Month>
+<Day>15</Day>
+</ArticleDate>
+</Article>
+<MedlineJournalInfo>
+<Country>England</Country>
+<MedlineTA>Nat Rev Immunol</MedlineTA>
+<NlmUniqueID>101124169</NlmUniqueID>
+<ISSNLinking>1474-1733</ISSNLinking>
+</MedlineJournalInfo>
+<CitationSubset>IM</CitationSubset>
+</MedlineCitation>
+\end{verbatim}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 2.1
+%----------------------------------------------------------------------------------------
+
+\subsection{Specifications}
+
+\begin{table}[htbp]
+\caption{Specifications table for PubSeq MEDLINE Abstracts}
+\centering
+\begin{tabular}{ | l | l | }
+  \hline
+  Parameter & Value \\
+  \hline
+  URL, repo & none \\
+  Path, clone & none \\
+  Path, running program & \texttt{/mnt/project/rost\_db/medline}\\
+  \hline
+\end{tabular}
+\end{table}
+
+%\begin{figure}[!h]
+%	\theverbbox
+%\caption{An example of a reference from XML MEDLINE corpus}
+%\label{fig:singlecell_chemo}
+%\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
