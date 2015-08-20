@@ -1,6 +1,6 @@
 % Chapter Template
 
-\chapter{PubSeq tagging Pipeline} % Main chapter title
+\chapter{PubSeq Tagging Pipeline} % Main chapter title
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
@@ -49,13 +49,14 @@ Besides processes mentioned above, there is one process that doesn't exactly bel
 
 \section{MEDLINE Abstracts}
 
-We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Each day, an updated from MEDLINE server is downloaded via FTP protocol onto our server. The update will happen daily at around 8 A.M. server time (CET). The XML format for MEDLINE abstracts currently follow the definition set by NLM
+\label{sec:MEDLINEAbstracts}
 
-Each update within MEDLINE corpus is formatted as an XML file. The definition of MEDLINE XML file currently follows National Library of Medicine's (NLM) MEDLINE/PubMed Document Type Definition (DTD) \citep{MEDLINEDTD}, which at the time of thesis writing, is currently at the version dated 01/01/2015 \footnote{accessed 8/20/2015}.
+We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Each day, an updated from MEDLINE server is downloaded via FTP protocol onto our server. The update will happen daily at around 8 A.M. server time (CET/CEST). Each update is formatted as an XML file, each with an incrementing numerical identifier: the files are named \texttt{meldine15nXXXX.xml} with \texttt{XXXX} the integer identifier -- that is, the update file \texttt{meldine15n1057.xml} comes right after \texttt{meldine15n1056.xml} and before \texttt{meldine15n1058.xml}. The definition of MEDLINE XML file currently follows National Library of Medicine's (NLM) MEDLINE/PubMed Document Type Definition (DTD) \citep{MEDLINEDTD}, which at the time of thesis writing, is currently at the version dated 01/01/2015 \footnote{accessed 8/20/2015}.
 
 
-Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
+Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat. Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
 
+\label{lst:MEDLINEDTD}
 \begin{verbatim}
 <MedlineCitation Owner="NLM" Status="In-Data-Review">
 <PMID Version="1">25976515</PMID>
@@ -153,3 +154,49 @@ Following is a slightly redacted example of a MEDLINE reference, which is taken 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
+
+\section{XMLAbstractFormatter.java}
+
+This class represents a formatter that parses the MEDLINE abstract files and transforms it into Lars' tagger compliant format. It follows NLM DTD for MEDLINE \citep{MEDLINEDTD} as parsing reference. In the directory where the updates were downloaded, it lists down all possible XML files and parses files that had not been processed before. For each XML file, it creates a tree representation of the file through full. Owning to its tree-like structure \citep{bray2011extensible} \citep{MEDLINEDTD}, this implies that each \texttt{MedlineCitation} tag is itself is a tree (see Section \ref{lst:MEDLINEDTD}) . For each \texttt{MedlineCitation} it extracts needed information such as PubMed ID, title, journal name, publication date, abstract, authors and associated MeSH IDs \citep{lowe1994understanding} and writes it out.
+
+\subsection{Parameters}
+
+\begin{lstlisting}[breaklines]
+path_to_medline ner_output_path mesh_output_path counter_file counter_max
+\end{lstlisting}
+
+\begin{itemize}
+\item \texttt{path\_to\_medline} refers to the location of MEDLINE xml abstracts. The program will recursively traverse all sub directories of this path and parse files matching following name pattern: \texttt{meldine15nXXXX.xml}.
+
+\texttt{ner\_output\_path} refers to path the first output file (with name) should be written onto. The first output file would then be used for Tagging by PubSeq NER Tagger.
+
+\texttt{mesh\_output\_path }refers to path the second output file (with name) should be written onto. The second output file contains associative table between PMID and list of MeSH IDs associated with the publication. Since Lars' program input is fixed we write this information in separate file.
+
+\item \texttt{counter\_file} refers to file containing the location of last parsing. The program parses \texttt{XXXX} of the name format and figures whether current integer is larger than the one written in \texttt{counter\_file} before parsing the content of the update file. Upon the completion of the run, the program will replace the value within \texttt{counter\_file} with the largest \texttt{XXX} it encountered. This would be then the starting point of the next run.
+
+\item \texttt{counter\_max} is the path of file containing the maximum \texttt{XXXX} this program should read. If \texttt{counter\_file} contains 1000 and \texttt{counter\_max} 1500 it will only parse \texttt{meldine15n1001.xml} all the way through \texttt{meldine15n1500.xml} in this run. Note that \texttt{counter\_max} is not updated after run. If \texttt{counter\_max} doesn't exist in system then the it assumes \texttt{Integer.MAX\_VALUE} \footnote{\href{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}, accessed 08/20/2015} as upper bound of the parsing.
+\end{itemize}
+
+\subsection{Specifications}
+
+\begin{table}[htbp]
+\caption{Specifications table for XMLAbstractsFormatter.java}
+\centering
+\begin{tabularx}{\textwidth}{ | l | X | }
+  \hline
+  Parameter & Value \\
+  \hline
+  URL, repo & \href{https://rostlab.informatik.tu-muenchen.de/gitlab/gyachdav/pubseq-crawler/blob/master/PubSeq/src/org/pubseq/utils/XMLAbstractsFormatter.java}{https://rostlab.informatik.tu-muenchen.de/gitlab/gyachdav/pubseq-crawler/blob/master/PubSeq/src/org/pubseq/utils/} \href{https://rostlab.informatik.tu-muenchen.de/gitlab/gyachdav/pubseq-crawler/blob/master/PubSeq/src/org/pubseq/utils/XMLAbstractsFormatter.java}{XMLAbstractsFormatter.java} \\
+  Path, clone & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq} \texttt{/src/org/pubseq/utils/XMLAbstractsFormatter.java} \\
+  Path, running program & \texttt{/mnt/project/pubseq/dev/pubseq-tagging} \texttt{/PubSeqUtils/src/org/pubseq/utils} \texttt{/XMLAbstractsFormatter.class}\\
+  \hline
+\end{tabularx}
+\end{table}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{tagcorpus.cxx}
+
+
