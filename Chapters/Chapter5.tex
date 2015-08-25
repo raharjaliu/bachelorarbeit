@@ -5,3 +5,63 @@
 \label{Chapter5} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 \lhead{Chapter 5. \emph{PubSeq Solr Index}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+
+This chapter tries to answer the second question posed in Section \ref{sec:Chap3Intro}: \textit{how the data is going to be stored?} We would see the reason behind our choice of storage technology. We would then also try to specify the definition of our index.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Indexing Perspective}
+
+Apache Solr is an open source enterprise search platform. Initially developed by Yonik Seeley at CNET Networks, it was later published as open source through donation to Apache Software Foundation \footnote{\href{https://issues.apache.org/jira/browse/SOLR-1}{\texttt{https://issues.apache.org/jira/browse/SOLR-1}}, accessed 25/08/2015}.
+
+Unlike SQL based system which uses tabular data representation as underlying data storage mechanism, Solr utilizes indexing mechanism in its system \citep{smiley2015apache}. This non-SQL characteristics of data storage and maintenance are generally known as NoSQL. (Brewer, 2000) \citep{brewer2000towards} did some nice overview of comparison between NoSQL and conventional SQL, which could be seen on Table \ref{fig:ACIDvsBASE}
+
+\begin{table}[htbp]
+\caption{ACID vs. BASE database property models. Some NoSQL databases implement ACID, others do not. Taken from (Wachinger, 2013) \citep{wachinger2013next}, adopted from (Brewer, 2000) \citep{brewer2000towards}.
+}
+\begin{tabularx}{\textwidth}{ | l | X | }
+  \hline
+  ACID (relational model) & BASE (NoSQL) \\
+  \hline
+  Atomicity, Consistency, Isolation, Durability & Basically Available, Soft state, Eventually consistent \\
+  Isolation & Availability First \\
+  Focus on Commit & Best Effort \\
+  Nested Transactions & Approximative Answers Acceptable \\
+  Non-quaranteed Availability & Aggressive (Optimistic) \\
+  Conservative (pessimistic) & Simpler \\
+  Difficult Evolution (schema) & Faster, Easier Evolution \\
+  \hline
+\end{tabularx}
+  \label{fig:ACIDvsBASE}
+\end{table}
+
+While most NoSQL implementations don't strictly follow ACID criterions, most don't fall into BASE category either. Also, many NoSQL implementations focus on particular use case rather than aim at general data storage purpose. In this regard, Solr aims to be able to store and index in the order of millions and billions documents while optimizing for -- among others -- faceted search \citep{tunkelang2009faceted}, string search and result paging\footnote{\href{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}{\texttt{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}}, accessed 24/05/2015}. Solr also supports implicit definition of text syntax through definition of stopping sign, language rules etc -- this malleability is used for example, for Solr to be able to optimize for specific language it indexes \citep{grainger2014solr}. This way, Solr not only stores the data efficiently but in a way understand the logic of the data.
+
+Formally, we define our reason of using Solr as follows:
+
+\begin{itemize}
+\item \textbf{Reverse indexing}. Possibly the strongest proposition of using Solr, reverse indexing refers to listing down \textit{where in which documents does a string appears in the index}, instead of \textit{which strings appear in which document in the index}. This reverse paradigm enables Solr to retrieve string related queries in almost constant time \citep{grainger2014solr}.
+\item \textbf{Automatic Query Weighting}. In its query syntax, Solr enables weighted string matching query. Take for example following content of Solr query: 
+\begin{center}
+\texttt{unirotid:P53\_HUMAN\textasciicircum2 AND uniprotid:P53\_HORSE}
+\end{center}
+In this query, \texttt{unirotid:P53\_HUMAN} would be given twice as much weight as \texttt{uniprotid:P53\_HORSE}. For complex analysis involving multiple string queries this proves to be a powerful feature.
+\item \textbf{Minimal Environment Requirement}. Each unpacked Solr directory could be run to create an instance of server. The only external requirement for Solr is installed Java Virtual Machine (JVM). This makes easier for us for example to test our index in various environment, therefore reducing iteration overhead.
+\item \textbf{Native Java Implementation}. Combined with its native Java API, SolrJ, it ensures easier interaction and development of the index.
+\item \textbf{Result Pagination}. Solr natively supports results pagination\footnote{\href{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}{\texttt{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}}}. This means that, for very huge query result the system doesn't have to dump the whole result in memory. For our specific purpose, this proves helpful.
+\end{itemize}
+
+
+
+There are also other reasons for deploying Solr such as generally lower schema definition complexity, generally powerful syntax etc., which makes even more case for using Solr over other both SQL and non-SQL systems.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Index Definitions}
+
+
+

@@ -6,6 +6,8 @@
 
 \lhead{Chapter 4. \emph{PubSeq tagging Pipeline}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
 
+This chapters technically describes the whole routines of PubSeq Tagging Pipeline. Each single process will be presented and explained along with its program definitions and call arguments.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
@@ -42,6 +44,8 @@ The division of the whole pipeline into smaller tasks are reasoned through follo
 \end{itemize}
 
 Besides processes mentioned above, there is one process that doesn't exactly belong to Tagging Pipeline but is closely coupled and synchronized with it: downloading and storing of MEDLINE abstracts. Both download and maintenance of MEDLINE corpus and the Tagging pipeline would be covered in following sub-chapters.
+
+As mentioned several times before, the Tagging Pipeline would be run every day in the morning in two steps: updating the MEDLINE corpus and the Tagging Pipeline itself. As the Tagging Pipeline concludes, all updates for the day that were fetched from MEDLINE leasing scheme server \citep{MEDLINE} would be indexed within Solr.
 
 \begin{figure}[htbp]
     \includegraphics[width=6in]{Figures/tagging_pipeline_complete.png}
@@ -216,7 +220,7 @@ Our entry point into the program is \texttt{tagcorpus.cxx}. There are several mo
 
 
 \begin{lstlisting}[breaklines]
-at input_file | path_to_named_entity_tagger/tagcorpus path_to_pubseq_programdata/entities.tsv path_to_named_entity_tagger_data/names.tsv path_to_named_entity_tagger_data/global.tsv path_to_named_entity_tagger_data/local.tsv path_to_named_entity_tagger_data/groups.tsv > output_file_path
+input_file | path_to_named_entity_tagger/tagcorpus path_to_pubseq_programdata/entities.tsv path_to_named_entity_tagger_data/names.tsv path_to_named_entity_tagger_data/global.tsv path_to_named_entity_tagger_data/local.tsv path_to_named_entity_tagger_data/groups.tsv > output_file_path
 \end{lstlisting}
 
 \begin{itemize}
