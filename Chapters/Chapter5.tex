@@ -19,8 +19,7 @@ Apache Solr is an open source enterprise search platform. Initially developed by
 Unlike SQL based system which uses tabular data representation as underlying data storage mechanism, Solr utilizes indexing mechanism in its system \citep{smiley2015apache}. This non-SQL characteristics of data storage and maintenance are generally known as NoSQL. (Brewer, 2000) \citep{brewer2000towards} did some nice overview of comparison between NoSQL and conventional SQL, which could be seen on Table \ref{fig:ACIDvsBASE}
 
 \begin{table}[htbp]
-\caption{ACID vs. BASE database property models.}{ACID vs. BASE database property models. Some NoSQL databases implement ACID, others do not. Taken from (Wachinger, 2013) \citep{wachinger2013next}, adopted from (Brewer, 2000) \citep{brewer2000towards}.
-}
+\caption{ACID vs. BASE database property models. ACID vs. BASE database property models. Some NoSQL databases implement ACID, others do not. Taken from (Wachinger, 2013) \citep{wachinger2013next}, adopted from (Brewer, 2000) \citep{brewer2000towards}.}
 \begin{tabularx}{\textwidth}{ | l | X | }
   \hline
   ACID (relational model) & BASE (NoSQL) \\
@@ -116,6 +115,52 @@ Similar to SQL fashion, one of the most important aspect of schema definition wi
 
 Upon creatoin of core, this configuration would be internalized via \texttt{schema.xml}. An example of instance of \texttt{schema.xml} can be found in Appendix \ref{sec:SchemaXMLPath}.
 
-Following is a slightly redacted example of a document within Solr, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat. Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
+Following is a slightly abridged example of a document within Solr, which is taken for the paper by Takahashi and Yamanaka, Cell, 2006\footnote{doi: 10.1016/j.cell.2006.07.024}:
+
+\label{lst:SolrDoc}
+\begin{lstlisting}[breaklines]
+{
+	"pmid":"16904174",
+	"authors":["Kazutoshi Takahashi", "Shinya Yamanaka"],
+	"journal":"Cell",
+	"pubdate":"2006-08-25T00:00:01Z",
+	"title":"Induction of pluripotent stem cells from mouse embryonic and adult fibroblast cultures by defined factors.",
+	"abstract":"Differentiated cells can be reprogrammed to an embryonic-like state by transfer of nuclear contents into oocytes or by fusion with embryonic stem (ES) cells. Little is known about factors that induce this reprogramming. Here, we demonstrate induction of pluripotent stem cells from mouse embryonic or adult fibroblasts by introducing four factors, Oct3/4, Sox2, c-Myc, and Klf4, under ES cell culture conditions. Unexpectedly, Nanog was dispensable. These cells, which we designated iPS (induced pluripotent stem) cells, exhibit the morphology and growth properties of ES cells and express ES cell marker genes. Subcutaneous transplantation of iPS cells into nude mice resulted in tumors containing a variety of tissues from all three germ layers. Following injection into blastocysts, iPS cells contributed to mouse embryonic development. These data demonstrate that pluripotent stem cells can be directly generated from fibroblast cultures by the addition of only a few defined factors.",
+	"uniprotid":["B3CJ88_HUMAN", "B3CJC0_HUMAN", "Q3V2B6_MOUSE", "B3CJ65_HUMAN", "A2RS90_MOUSE", "B3CJB3_HUMAN", "Q3UES8_MOUSE", "B7ZCH2_MOUSE", "B3CJD1_HUMAN", "B3CJ82_HUMAN", "B3CJ66_HUMAN", "NANOG_MOUSE", ... , "KLF4_MOUSE", "J7H3Z5_HUMAN", "J7H416_HUMAN", "H0YBG3_HUMAN", "H0YBT0_HUMAN", "F2VTX5_HUMAN"],
+	"meshid":["D000328", "D000818", "D002454", "D017690", "D002478", "D004268", "D004622", "D005347", "D020869", "D018398", "D006801", "D051741", "D051379", "D008819", "D008822", "D050814", "D020411", "D039904", "D016271", "D055748", "D015534"],
+	"speciesid":["10090", "9606"],
+	"_version_":1504409903648735232
+}
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Information Retrieval}
+
+Solr communicates mainly through HTTP protocol. This makes developer to be able to iterate through development process quickly. Each Solr syntax is structured in following way:
+
+\begin{center}
+\begin{verbatim}
+http://hostname:port/solr/core_name/select?wt=json&indent=true&q=solr_query
+\end{verbatim}
+\end{center}
+
+The complete syntax of \texttt{solr\_query} can be seen in (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr}). There are also several online resources such as here\footnote{\href{http://www.solrtutorial.com/solr-query-syntax.html}{\texttt{http://www.solrtutorial.com/solr-query-syntax.html}}, accessed 25/08/2015} and here\footnote{\href{https://wiki.apache.org/solr/SolrQuerySyntax}{\texttt{https://wiki.apache.org/solr/SolrQuerySyntax}}, accessed 25/08/2015}. The syntax involves mostly a conjunctions/disjunctions of predicate
+
+
+
+
+%While we are aware of one main risk involving communication through HTTP, database injection \footnote{\href{https://www.owasp.org/index.php/Top_10_2013-A1-Injection}{\texttt{https://www.owasp.org/index.php/Top_10_2013-A1-Injection}}, accessed 25/08/2015}, we designed our VM in a way that it would only accept certain ports from the forwarder within Rostlab environment to communicate via . This port will be different from the port our Solr communicates through -- per default \texttt{8983}.
+
+%\begin{figure}[htbp]
+%    \includegraphics[width=6in]{Figures/pubseq_vm.png}
+%    \rule{35em}{0.5pt}
+%  \caption[Diagram of the main components of PubSeq with VM parameter highlighted.]{Diagram of the main components of Solr with Virtual Machine environment shown. Here we see that the web page, the only interface between VM and outside world, is isolated from outside world (upper part of the out-of-box area). While a web page could access the Node.js server and Solr index is available everywhere within the Virtual Machine, there is invisible   There are two main modes of index access: query and indexing. Both modes are handled by the top level REST-like service (wrapped in Jetty \citep{jetty}, Tomcat \citep{apachetomcat} or something similar). Each instance consists of multiple core, with each core is defined by configuration files, namely \texttt{solrconfig.xml} (which applies globally across all cores) and \texttt{schema.xml}. Both indexing and query routines would be going through text analysis pipeline for tokenization and other lexical analysis. Solr would then store/fetch several meta-information in/from appropriate Lucene index. Figure adopted from (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr})}
+%  \label{fig:SolrComponents}
+%\end{figure} 
+
+
 
 \label{lst:MEDLINEDTD}
