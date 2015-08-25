@@ -68,7 +68,7 @@ We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Eac
 Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat. Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
 
 \label{lst:MEDLINEDTD}
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 <MedlineCitation Owner="NLM" Status="In-Data-Review">
 <PMID Version="1">25976515</PMID>
 <DateCreated>
@@ -134,7 +134,7 @@ Following is a slightly redacted example of a MEDLINE reference, which is taken 
 </MedlineJournalInfo>
 <CitationSubset>IM</CitationSubset>
 </MedlineCitation>
-\end{verbatim}
+\end{lstlisting}
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 2.1
@@ -212,7 +212,7 @@ path_to_medline ner_output_path mesh_output_path counter_file counter_max
 
 \section{tagcorpus.cxx}
 
-This program is the core component of our Tagging Pipeline. It takes a tab-separated file as input and tags various entities within each abstract. Originally developed by Jensen et al at University of Copenhagen, the backbone of the program is based in NER tagging environment that was used in (Pacifilis, et al, 2013 \citep{pafilis2013species}), which in turn utilizes dictionaries curated within the framework of STRING database (Szklarczyk, et al, 2011 \citep{Szklarczyk2011string}).
+This program is the core component of our Tagging Pipeline. It takes a tab-separated file as input and tags various entities within each abstract. Originally developed by Jensen et al at University of Copenhagen, the backbone of the program is based in NER tagging environment that was used in (Pacifilis, et al, 2013 \citep{pafilis2013species}), which in turn utilizes dictionaries curated within the framework of STRING database (Szklarczyk, et al, 2011 \citep{szklarczyk2011string}).
 
 In very broad explanation, the program uses various kind of mapping for various entities. While parsing a text, the program checks for word combinations that looks similar to the entries that were mapped (i.e. the word has small Levensthein distance \citep{levenshtein1966binary} to some word within the map). For an NER program, the program is astonishingly fast. A full set of MEDLINE corpus with ca. 26 million articles could be parsed in under 12 hours (the mileage may vary according to server specification and number of threads involved).
 
@@ -508,7 +508,7 @@ Also,
 \subsection{Specifications}
 
 \begin{table}[htbp]
-\caption{Specifications table for StatisticsUtils.java}
+\caption{Specifications table for IndexerNew.java}
 \centering
 \begin{tabularx}{\textwidth}{ | l | X | }
   \hline
@@ -543,7 +543,7 @@ abstract_output_path index_url
 \subsection{Specifications}
 
 \begin{table}[htbp]
-\caption{Specifications table for StatisticsUtils.java}
+\caption{Specifications table for SolrUploader.java}
 \centering
 \begin{tabularx}{\textwidth}{ | l | X | }
   \hline
