@@ -46,7 +46,7 @@ To understand how the components were structured, I think it is better for the r
   \centering
     \includegraphics[width=6in]{Figures/solr_graph_main.png}
     \rule{35em}{0.5pt}
-  \caption[An Overview of how the 'Persistent Components' of PubSeq environment interacts.]{An overview of how the Persistent Components -- the components that are running around the clock -- interact with each other. Here we can see two of three main components explained before: Solr Index, Solr Server (and its rendered web app instance, PubSeq Web Page) which is also connected with RostLab Cluster via SunGrid Engine (SGE)}
+  \caption[An Overview of how the 'Persistent Components' of PubSeq environment interacts.]{An overview of how the Persistent Components -- the components that are running around the clock -- interact with each other. Here we can see two of three main components explained before: Solr Index, Solr Server (and its rendered web app instance, PubSeq Web Page) which is also connected with RostLab Cluster via SunGrid Engine (SGE). Compare this diagram with spatially differentiated diagram of the system with Virtual Machine shown (Figure \ref{fig:PubSeqVM} in Chapter 6)}
   \label{fig:ComponentInteraction}
 \end{figure}
 
@@ -83,14 +83,14 @@ Here we see how four main persistent components of PubSeq interact. First, the u
 
 \section{Tagging Pipeline}
 
-Tagging pipeline refers to the process of creating and updating the Solr index that would be used for the server to search for articles containing protein mentions. In this pipeline, a set of documents from MEDLINE database would sequentially processed and finally be pushed into our index. The whole process is done in periodic/one-off basis. The schematic representation with each single step obscured can be seen in Figure \ref{fig:SequenceDiagram}.
+Tagging pipeline refers to the process of creating and updating the Solr index that would be used for the server to search for articles containing protein mentions. In this pipeline, a set of documents from MEDLINE database would sequentially processed and finally be pushed into our index. The whole process is done in periodic/one-off basis. The schematic representation with each single step obscured can be seen in Figure \ref{fig:TaggingPipelineBroad}.
 
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=6in]{Figures/solr_tagging_pipeline.png}
     \rule{35em}{0.5pt}
   \caption[Schematic representation of PubSeq Tagging Pipeline.]{Schematic diagram representing the broad process of Solr Tagging Pipeline. On the left side the input files, MEDLINE abstracts in XML formats, would be processed sequentially until the data is ready to be pushed onto the Solr index. We deliberately highlighted NER Tagging from within the pipeline to emphasize its importance in our pipeline.}
-  \label{fig:SequenceDiagram}
+  \label{fig:TaggingPipelineBroad}
 \end{figure}
 
 Here we see that the process consists of smaller processes. As already said, there could be two way of running this process: one-off and periodic update. While one-off Tagging Pipeline could be done on RostLab's \textbf{jobtest}/\textbf{jobtest2} or similar physical servers within RostLab infrastructure, the periodic update process should be only done via SunGrid Engine call scheduled in crontab \citep{keller1999take} (more details later).

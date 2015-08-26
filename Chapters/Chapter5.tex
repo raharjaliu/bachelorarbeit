@@ -62,7 +62,7 @@ In this query, \texttt{unirotid:P53\_HUMAN} would be given twice as much weight 
 \begin{figure}[htbp]
     \includegraphics[width=6in]{Figures/solr_components.png}
     \rule{35em}{0.5pt}
-  \caption[Diagram of the main components of Solr.]{Diagram of the main components of Solr. There are two main modes of index access: query and indexing. Both modes are handled by the top level REST-like service (wrapped in Jetty \citep{jetty}, Tomcat \citep{apachetomcat} or something similar). Each instance consists of multiple core, with each core is defined by configuration files, namely \texttt{solrconfig.xml} (which applies globally across all cores) and \texttt{schema.xml}. Both indexing and query routines would be going through text analysis pipeline for tokenization and other lexical analysis. Solr would then store/fetch several meta-information in/from appropriate Lucene index. Figure adopted from (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr})}
+  \caption[Diagram of the main components of Solr.]{Diagram of the main components of Solr. There are two main modes of index access: query and indexing. Both modes are handled by the top level REST-like service (wrapped in Jetty \citep{jetty}, Tomcat \citep{apachetomcat} or something similar). Each instance consists of multiple core, with each core defined by configuration files, namely \texttt{solrconfig.xml} (which applies globally across all cores) and \texttt{schema.xml}. Both indexing and query routines would be going through text analysis pipeline for tokenization and other lexical analysis. Solr would then store/fetch several meta-information in/from appropriate Lucene index. Figure adopted from (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr})}
   \label{fig:SolrComponents}
 \end{figure}
 
@@ -108,7 +108,7 @@ Similar to SQL fashion, one of the most important aspect of schema definition wi
   meshid & text\_general & \texttt{True} & \texttt{True} & \texttt{False} & \texttt{True} \\
   \hline
 \end{tabular}
-  \label{fig:ACIDvsBASE}
+  \label{fig:FieldsDefSolr}
 \end{table}
 
 \textbf{type} refers to what kind of Java class this field implements. If \textbf{indexed} is true, the value of the field can be used in queries to retrieve matching documents. If \textbf{stored} is true, the actual value of the field can be retrieved by queries. if \textbf{required} is true, the core instructs Solr to reject any attempts to add a document which does not have a value for this field. If \textbf{multiValued} is true, it indicates that a single document might contain multiple values for this field type\footnote{\href{https://cwiki.apache.org/confluence/display/solr/Defining+Fields}{\texttt{https://cwiki.apache.org/confluence/display/solr/Defining+Fields}}, accessed 25/08/2015}. Each multi-valued entry is represented as list internally. This could be invoked using any class implementing List interface \footnote{\href{http://docs.oracle.com/javase/7/docs/api/java/util/List.html}{\texttt{http://docs.oracle.com/javase/7/docs/api/java/util/List.html}}, accessed 25-08-2015}. As query result, depending on the return format (XML, JSON or CSV), this would be returned as either XML list, JSON list oobject or CSV cell-internal list respectively.
@@ -141,16 +141,23 @@ Following is a slightly abridged example of a document within Solr, which is tak
 
 Solr communicates mainly through HTTP protocol. This makes developer to be able to iterate through development process quickly. Each Solr syntax is structured in following way:
 
-\begin{center}
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 http://hostname:port/solr/core_name/select?wt=json&indent=true&q=solr_query
-\end{verbatim}
-\end{center}
+\end{lstlisting}
 
-The complete syntax of \texttt{solr\_query} can be seen in (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr}). There are also several online resources such as here\footnote{\href{http://www.solrtutorial.com/solr-query-syntax.html}{\texttt{http://www.solrtutorial.com/solr-query-syntax.html}}, accessed 25/08/2015} and here\footnote{\href{https://wiki.apache.org/solr/SolrQuerySyntax}{\texttt{https://wiki.apache.org/solr/SolrQuerySyntax}}, accessed 25/08/2015}. The syntax involves mostly a conjunctions/disjunctions of predicate
+The complete syntax of \texttt{solr\_query} can be seen in (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr}). There are also several online resources such as here\footnote{\href{http://www.solrtutorial.com/solr-query-syntax.html}{\texttt{http://www.solrtutorial.com/solr-query-syntax.html}}, accessed 25/08/2015} and here\footnote{\href{https://wiki.apache.org/solr/SolrQuerySyntax}{\texttt{https://wiki.apache.org/solr/SolrQuerySyntax}}, accessed 25/08/2015}. The syntax involves mostly a conjunctions/disjunctions of predicate. Each predicate commonly comes in form of \texttt{field:value}. That is, to find list of papers by Yamanaka that were published in journal Cell one would write as query:
 
+\begin{lstlisting}[breaklines]
+...q=author:yamanaka AND journal:cell
+\end{lstlisting}
 
+Note that URL applies its own encoding rules \citep{weiler2010rsync}. The complete url of above query, done on \texttt{pubseq} core within PubSeq Solr index, would look like following:
 
+\begin{lstlisting}[breaklines]
+http://localhost:8983/solr/pubseq/select?wt=json&indent=true&q=yamanaka%20AND%20journal%3Acell
+\end{lstlisting}
+
+The process of data retrieval cold be done both synchronously and asynchronously.
 
 %While we are aware of one main risk involving communication through HTTP, database injection \footnote{\href{https://www.owasp.org/index.php/Top_10_2013-A1-Injection}{\texttt{https://www.owasp.org/index.php/Top_10_2013-A1-Injection}}, accessed 25/08/2015}, we designed our VM in a way that it would only accept certain ports from the forwarder within Rostlab environment to communicate via . This port will be different from the port our Solr communicates through -- per default \texttt{8983}.
 
@@ -160,7 +167,3 @@ The complete syntax of \texttt{solr\_query} can be seen in (Grainger, Potter and
 %  \caption[Diagram of the main components of PubSeq with VM parameter highlighted.]{Diagram of the main components of Solr with Virtual Machine environment shown. Here we see that the web page, the only interface between VM and outside world, is isolated from outside world (upper part of the out-of-box area). While a web page could access the Node.js server and Solr index is available everywhere within the Virtual Machine, there is invisible   There are two main modes of index access: query and indexing. Both modes are handled by the top level REST-like service (wrapped in Jetty \citep{jetty}, Tomcat \citep{apachetomcat} or something similar). Each instance consists of multiple core, with each core is defined by configuration files, namely \texttt{solrconfig.xml} (which applies globally across all cores) and \texttt{schema.xml}. Both indexing and query routines would be going through text analysis pipeline for tokenization and other lexical analysis. Solr would then store/fetch several meta-information in/from appropriate Lucene index. Figure adopted from (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr})}
 %  \label{fig:SolrComponents}
 %\end{figure} 
-
-
-
-\label{lst:MEDLINEDTD}

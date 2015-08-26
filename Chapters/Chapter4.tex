@@ -67,7 +67,7 @@ We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Eac
 
 Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat. Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
 
-\label{lst:MEDLINEDTD}
+\label{lst:MEDLINEDTDExample}
 \begin{lstlisting}[breaklines]
 <MedlineCitation Owner="NLM" Status="In-Data-Review">
 <PMID Version="1">25976515</PMID>
@@ -170,7 +170,7 @@ Following is a slightly redacted example of a MEDLINE reference, which is taken 
 
 \label{sec:XMLAbstractFormatter}
 
-This class represents a formatter that parses the MEDLINE abstract files and transforms it into STRING Tagger-compliant format. It follows NLM DTD for MEDLINE \citep{MEDLINEDTD} as parsing reference. In the directory where the updates were downloaded, it lists down all possible XML files and parses files that had not been processed before. For each XML file, it creates a tree representation of the file through full. Owning to its tree-like structure \citep{bray2011extensible} \citep{MEDLINEDTD}, this implies that each \texttt{MedlineCitation} tag is itself is a tree (see Section \ref{lst:MEDLINEDTD}) . For each \texttt{MedlineCitation} it extracts needed information such as PubMed ID, title, journal name, publication date, abstract, authors and associated MeSH IDs \citep{lowe1994understanding} and writes it out.
+This class represents a formatter that parses the MEDLINE abstract files and transforms it into STRING Tagger-compliant format. It follows NLM DTD for MEDLINE \citep{MEDLINEDTD} as parsing reference. In the directory where the updates were downloaded, it lists down all possible XML files and parses files that had not been processed before. For each XML file, it creates a tree representation of the file through full. Owning to its tree-like structure \citep{bray2011extensible} \citep{MEDLINEDTD}, this implies that each \texttt{MedlineCitation} tag is itself is a tree (see Section \ref{lst:MEDLINEDTDExample}) . For each \texttt{MedlineCitation} it extracts needed information such as PubMed ID, title, journal name, publication date, abstract, authors and associated MeSH IDs \citep{lowe1994understanding} and writes it out.
 
 \subsection{Parameters}
 

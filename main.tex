@@ -76,6 +76,7 @@
 \begin{center}
 
 \textsc{\Large Technische Universit\"at M\"unchen}\\[.5cm] % University name
+\textsc{\Large Ludwig-Maximillians-Univesit\"at M\"unchen}\\[1.5cm] % University name
 %\textsc{\Large Ludwig-Maximillians-Univesit\"at M\"unchen}\\[.5cm] % University name
 \textsc{\Large Faculty of Informatics}\\[1.5cm] % University name
 \textsc{\Large Bachelor's Thesis in Bioinformatics}\\[0.5cm] % Thesis type
@@ -210,10 +211,13 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 %	LIST OF CONTENTS/FIGURES/TABLES PAGES
 %----------------------------------------------------------------------------------------
 
+\setstretch{1}
+
 \pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
 
 \lhead{\emph{Contents}} % Set the left side page header to "Contents"
 \tableofcontents % Write out the Table of Contents
+
 
 \lhead{\emph{List of Figures}} % Set the left side page header to "List of Figures"
 \listoffigures % Write out the List of Figures
@@ -225,6 +229,8 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
 
+\setstretch{1.3}
+
 \clearpage % Start a new page
 
 \setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
@@ -233,13 +239,17 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 \listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
 {
 \textbf{BLAST} & \textbf{B}asic \textbf{A}lignment \textbf{S}earch \textbf{T}ools\\
+\textbf{FTP} & \textbf{F}ile \textbf{T}ransfer \textbf{P}rotocol\\
 \textbf{HTTP} & \textbf{H}yper\textbf{t}ext \textbf{T}ransfer \textbf{P}rotocol\\
+\textbf{LAB} & \textbf{L}ocal \textbf{A}rea \textbf{N}etwork\\
 \textbf{MEDLINE} & \textbf{Med}ical \textbf{Li}terature Analysis Retrieval Onli\textbf{ne}\\
 \textbf{MeSH} & \textbf{Me}dical \textbf{S}ubject \textbf{H}eading\\
 \textbf{NER} & \textbf{N}amed \textbf{E}ntity \textbf{R}ecognition\\
 \textbf{NLM} & U.S. \textbf{N}ational \textbf{L}ibrary of \textbf{M}edicine \\
-\textbf{OLN} & \textbf{O}rdered \textbf{L}ocus \textbf{N}ame \\
-\textbf{UniProt} & \textbf{Un}iversal \textbf{Prot}ein Resources \\
+\textbf{NLP} & \textbf{N}atural \textbf{L}anguage \textbf{P}rocessng\\
+\textbf{OLN} & \textbf{O}rdered \textbf{L}ocus \textbf{N}ame\\
+\textbf{VM} & \textbf{V}irtual \textbf{M}achine\\
+\textbf{UniProt} & \textbf{Un}iversal \textbf{Prot}ein Resources\\
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
 }
 
@@ -281,17 +291,19 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-\setstretch{1.3} % Return the line spacing back to 1.3
+%\setstretch{1.3} % Return the line spacing back to 1.3
 
-\pagestyle{empty} % Page style needs to be empty for this page
+%\pagestyle{empty} % Page style needs to be empty for this page
 
 %\dedicatory{For Dad, my unsung hero.} % Dedication text
 
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+%\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %----------------------------------------------------------------------------------------
+
+\setstretch{1}
 
 \mainmatter % Begin numeric (1,2,3...) page numbering
 
@@ -336,7 +348,8 @@ Finally I would also thank all Rostlab members and its extensions, without whom 
 
 \lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
 
-\bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+%\bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+\bibliographystyle{unsrt}
 
 \bibliography{Bibliography} 
 
