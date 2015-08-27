@@ -148,13 +148,13 @@ http://hostname:port/solr/core_name/select?wt=json&indent=true&q=solr_query
 The complete syntax of \texttt{solr\_query} can be seen in (Grainger, Potter and Seeley, 2014 \citep{grainger2014solr}). There are also several online resources such as here\footnote{\href{http://www.solrtutorial.com/solr-query-syntax.html}{\texttt{http://www.solrtutorial.com/solr-query-syntax.html}}, accessed 25/08/2015} and here\footnote{\href{https://wiki.apache.org/solr/SolrQuerySyntax}{\texttt{https://wiki.apache.org/solr/SolrQuerySyntax}}, accessed 25/08/2015}. The syntax involves mostly a conjunctions/disjunctions of predicate. Each predicate commonly comes in form of \texttt{field:value}. That is, to find list of papers by Yamanaka that were published in journal Cell one would write as query:
 
 \begin{lstlisting}[breaklines]
-...q=author:yamanaka AND journal:cell
+...q=authors:yamanaka AND journal:cell
 \end{lstlisting}
 
 Note that URL applies its own encoding rules \citep{weiler2010rsync}. The complete url of above query, done on \texttt{pubseq} core within PubSeq Solr index, would look like following:
 
 \begin{lstlisting}[breaklines]
-http://localhost:8983/solr/pubseq/select?wt=json&indent=true&q=yamanaka%20AND%20journal%3Acell
+http://localhost:8983/solr/pubseq/select?wt=json&indent=true&q=authors%3Ayamanaka%20AND%20journal%3Acell
 \end{lstlisting}
 
 The process of data retrieval cold be done both synchronously and asynchronously.
