@@ -82,11 +82,91 @@ There are two main components in our Node.js server: \textbf{app.js} and web pag
 \item HTML rendering engine definition (see \textbf{Web Page Files} bellow).
 \item Additional prototypical String functions such as hash code creating function  and \texttt{startsWith()} \footnote{Note that \texttt{startsWith()} will be implemented in upcoming ECMAScript 2015 (ES6) Standard, see \href{https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith}{\texttt{https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global\_Objects/String/startsWith}} (accessed 26/08/2015).}
 \item \texttt{GET}, \texttt{POST} handlers for each of available pages, if such method is defined within the page.
+\item Cache implementation \footnote{\href{https://www.npmjs.com/package/node-cache}{\texttt{https://www.npmjs.com/package/node-cache}}, accessed 27/08/2015}.
 \item Several utility functions.
 \end{itemize}
 
-\textbf{Web Page Files} consist of pages that are available within the web application environment. Each page is written in Jade syntax, which makes it easier for user to write complex HTML file \footnote{\href{http://naltatis.github.io/jade-syntax-docs/}{\texttt{http://naltatis.github.io/jade-syntax-docs/}, accessed 26/06/2015.}}. Upon \texttt{GET} request for a page, \textbf{app.js} would render the page file using the HTML rendering engine for jade. This engine would parse the \texttt{.jade} file and create proper HTML file, which would then be returned to client.
+\textbf{Web Page Files} consist of pages that are available within the web application environment. Each page is written in Jade syntax, which makes it easier for user to write complex HTML file \footnote{\href{http://naltatis.github.io/jade-syntax-docs/}{\texttt{http://naltatis.github.io/jade-syntax-docs/}}, accessed 26/06/2015.}. Upon \texttt{GET} request for a page, \textbf{app.js} would render the page file using the HTML rendering engine for jade. This engine would parse the \texttt{.jade} file and create proper HTML file, which would then be returned to client.
 
 \subsection{index.html}
 
-Of most importance is the \textbf{index.html} (which was avaiable as \textbf{index.jade} prior rendering process) among web pages that are avaiable within the web interface environment. The web page contains the query interface that would communicate.
+Of most importance is the \textbf{index.html} (available as \textbf{index.jade} prior rendering process) among web pages that are available within the web interface environment. The web page contains the query interface that would communicate with the web server. It uses Twitter's front-end framework Bootstrap to create simple mobile-first web interface \citep{bootstrapjs}. The page consists of:
+
+\begin{itemize}
+  \item \textbf{Navigation Bar}, which contains links to other pages.
+  \item \textbf{Jumbotron}\footnote{\href{http://getbootstrap.com/components/}{\texttt{http://getbootstrap.com/components/}}, accessed 26/08/2015}, which contains:
+  \begin{itemize}
+    \item Search box
+    \item Query Button
+  \end{itemize}
+\end{itemize}
+
+The current snapshot of PubSeq web interface can bee sin in Figure \ref{fig:PubSeqWebMain}.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+\section{Usage}
+
+To use the webpage, user first has to put in amino acid sequence he/she is interested in. Alternatively, a user could also ask for sample sequence to be given by PubSeq web page (see Figure \ref{fig:PubSeqWebSequence}). There are currently five sequences that would be given to user at random\footnote{See \textbf{index.jade} to see the list of sequences.}. Upon hitting the \textbf{Query} button, the web page would be blocked during the entire query process (see Figure \ref{fig:PubSeqWebBlocked}). This would prevent user from multiple query on the same page at once. During this process, the client proceeds by submitting a \texttt{POST} method once every 10 seconds. There are several modes of \texttt{POST} method:
+
+\begin{itemize}
+\item \texttt{new}. The initial \texttt{POST} method. This method will tell the server that the client is starting a query with a given sequence. The server would check the cache whether the sequence has not been queried before. If not, it will submit a BLAST job onto Rostlab SunGrid Engine (SGE) and return the client with JSON containing \texttt{status:'running'}. Otherwise it would use cached list of UniProt IDs to query for articles mentioning the IDs in Solr Index. The list of articles would then be returned to client. 
+\item \texttt{check}. The mode \textbf{check} is done after the client receive JSON from server containing \texttt{status:'running'}. The \texttt{POST} will be done approximately 10 seconds after last message was receive. It will check whether the BLAST run was already done. If not, it will return again JSON containing \texttt{status:'running'}. Otherwise it will proceed to Solr and return mentioning articles to client.
+\item \texttt{update}. The mode \textbf{update} is done when the user move between result pages. In this modus, the server would basically query the Solr by continuing from last query\footnote{\href{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}{\texttt{https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results}}, accessed 27/08/2015}.
+\end{itemize}
+
+The interrelations between states could be presented as state diagram as seen in Figure \ref{fig:PubSeqWebStates}.
+
+After the query/page transition \texttt{POST} method is finished, the results would be presented to the user. As of the writing of this thesis, four kind of information are shown to user:
+
+\begin{itemize}
+  \item Number of matching documents.
+  \item The Solr query used for the sequence.
+  \item List of articles. Each article conveys following information:
+   \begin{itemize}
+    \item Article Title
+    \item PubMed ID
+    \item Authors
+    \item Publication date
+    \item The first 400 characters of abstract
+  \end{itemize}
+  \item Page number with optional left and right move page button.
+\end{itemize}
+
+Figure \ref{fig:PubSeqWebFirstResult} shows the first article that was shown in results page.
+
+\begin{figure}[htbp]
+    \includegraphics[width=6in]{Figures/pubseq_web.png}
+    \rule{35em}{0.5pt}
+  \caption[PubSeq Web Interface.]{PubSeq web interface.}
+  \label{fig:PubSeqWebMain}
+\end{figure}
+
+\begin{figure}[htbp]
+    \includegraphics[width=6in]{Figures/pubseq_web_sample_seq.png}
+    \rule{35em}{0.5pt}
+  \caption[Sample sequence button in PubSeq web interface.]{Sample sequence button in PubSeq web interface.}
+  \label{fig:PubSeqWebSequence}
+\end{figure}
+
+\begin{figure}[htbp]
+    \includegraphics[width=6in]{Figures/pubseq_blocked.png}
+    \rule{35em}{0.5pt}
+  \caption[Blocked screen in PubSeq web interface.]{Blocked screen in PubSeq web interface.}
+  \label{fig:PubSeqWebBlocked}
+\end{figure}
+
+\begin{figure}[htbp]
+    \includegraphics[width=6in]{Figures/pubseq_web_first_result.png}
+    \rule{35em}{0.5pt}
+  \caption[The first result of PubSeq query.]{The first result of PubSeq query.}
+  \label{fig:PubSeqWebFirstResult}
+\end{figure}
+
+\begin{figure}[htbp]
+    \includegraphics[width=6in]{Figures/pubseq_state_diagram.png}
+    \rule{35em}{0.5pt}
+  \caption[PubSeq web query state diagram.]{Diagram depicting the state transitions during PubSeq web query process.}
+  \label{fig:PubSeqWebStates}
+\end{figure}
