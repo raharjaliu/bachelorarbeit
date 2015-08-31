@@ -62,7 +62,7 @@ As mentioned several times before, the Tagging Pipeline would be run every day i
 
 \label{sec:MEDLINEAbstracts}
 
-We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Each day, an updated from MEDLINE server is downloaded via FTP protocol onto our server. The update will happen daily at around 8 A.M. server time (CET/CEST). Each update is formatted as an XML file, each with an incrementing numerical identifier: the files are named \texttt{meldine15nXXXX.xml} with \texttt{XXXX} the integer identifier -- that is, the update file \texttt{meldine15n1057.xml} comes right after \texttt{meldine15n1056.xml} and before \texttt{meldine15n1058.xml}. The definition of MEDLINE XML file currently follows National Library of Medicine's (NLM) MEDLINE/PubMed Document Type Definition (DTD) \citep{MEDLINEDTD}, which at the time of thesis writing, is currently at the version dated 01/01/2015 \footnote{accessed 8/20/2015}.
+We used NLM's leasing scheme \citep{MEDLINE} to retrieve the MEDLINE corpus. Each day, an updated from MEDLINE server is downloaded via FTP protocol onto our server. The update will happen daily at around 8 A.M. server time (CET/CEST). Each update is formatted as an XML file, each with an incrementing numerical identifier: the files are named \texttt{meldine15nXXXX.xml} with \texttt{XXXX} the integer identifier -- that is, the update file \texttt{meldine15n1057.xml} comes right after \texttt{meldine15n1056.xml} and before \texttt{meldine15n1058.xml}. The definition of MEDLINE XML file currently follows National Library of Medicine's (NLM) MEDLINE/PubMed Document Type Definition (DTD) \citep{MEDLINEDTD}, which at the time of thesis writing, is currently at the version dated 01/01/2015\footnote{accessed 8/20/2015}.
 
 
 Following is a slightly redacted example of a MEDLINE reference, which is taken for the paper by Karapakis-Liaskos and Ferrero, Nat. Rev. Immunol., 2015\footnote{doi:10.1038/nri3837}:
@@ -190,7 +190,7 @@ path_to_medline ner_output_path mesh_output_path counter_file counter_max
 
 \item \texttt{counter\_file}: file containing the location of last parsing. The program parses \texttt{XXXX} of the name format and figures whether current integer is larger than the one written in \texttt{counter\_file} before parsing the content of the update file. Upon the completion of the run, the program will replace the value within \texttt{counter\_file} with the largest \texttt{XXX} it encountered. This would be then the starting point of the next run.
 
-\item \texttt{counter\_max}: file containing the maximum \texttt{XXXX} this program should read. If \texttt{counter\_file} contains 1000 and \texttt{counter\_max} 1500 it will only parse \texttt{meldine15n1001.xml} all the way through \texttt{meldine15n1500.xml} in this run. Note that \texttt{counter\_max} is not updated after run. If \texttt{counter\_max} doesn't exist in system then the it assumes \texttt{Integer.MAX\_VALUE} \footnote{\href{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}{\texttt{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}}, accessed 08/20/2015} as upper bound of the parsing.
+\item \texttt{counter\_max}: file containing the maximum \texttt{XXXX} this program should read. If \texttt{counter\_file} contains 1000 and \texttt{counter\_max} 1500 it will only parse \texttt{meldine15n1001.xml} all the way through \texttt{meldine15n1500.xml} in this run. Note that \texttt{counter\_max} is not updated after run. If \texttt{counter\_max} doesn't exist in system then the it assumes \texttt{Integer.MAX\_VALUE}\footnote{\href{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}{\texttt{http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html}}, accessed 08/20/2015} as upper bound of the parsing.
 \end{itemize}
 
 \subsection{Specifications}
@@ -220,7 +220,9 @@ Specifications table for XMLAbstractsFormatter.java can be found in Table \ref{t
 
 This program is the core component of our Tagging Pipeline. It takes a tab-separated file as input and tags various entities within each abstract. Originally developed by Jensen et al at University of Copenhagen, the backbone of the program is based in NER tagging environment that was used in (Pacifilis, et al, 2013 \citep{pafilis2013species}), which in turn utilizes dictionaries curated within the framework of STRING database (Szklarczyk, et al, 2011 \citep{szklarczyk2011string}).
 
-In very broad explanation, the program uses various kind of mapping for various entities. While parsing a text, the program checks for word combinations that looks similar to the entries that were mapped (i.e. the word has small Levensthein distance \citep{levenshtein1966binary} to some word within the map). For an NER program, the program is astonishingly fast. A full set of MEDLINE corpus with ca. 26 million articles could be parsed in under 12 hours (the mileage may vary according to server specification and number of threads involved).
+In very broad explanation, the program uses various kind of mapping for various entities. While parsing a text, the program checks for word combinations that looks similar to the entries that were mapped (i.e. the word has small Levensthein distance \citep{levenshtein1966binary} to some word within the map). It would then rank the possible matches with various metrices such as the context of the document, the similarity of the string found on text to the names found in entities and names tables etc. The approach of detecting named entities using list of known entities and their corresponding common names are called \textit{dictionary-based named-entity recognition} \citep{nadeau2007survey}. This in contrast to other statistical or machine learning methods such as Conditional Random Field (CRF) \citep{lafferty2001conditional} or Deep Neural Network \citep{collobert2008unified}.
+
+For an NER program, the program is astonishingly fast. A full set of MEDLINE corpus with ca. 26 million articles could be parsed in under 12 hours (the mileage may vary according to server specification and number of threads involved). The speed of the program run could be partially explained by the fact that it utilizes various maps to recognize named-entity, an effort which due to memory loading could be done in almost constant time.
 
 Our entry point into the program is \texttt{tagcorpus.cxx}. There are several modi of running the program. However, in the modus that we use to tag MEDLINE abstracts, we call the tagger in following manner:
 
@@ -254,7 +256,7 @@ The NER Tagger takes a tab-separated table with following format as input:
 \item sixth column: abstract.
 \end{itemize}
 
-Following is an example of valid input line, taken for the paper by Gu, et al, The Journal of Cell Biology, 1999 \footnote{doi: 10.1083/jcb.147.5.1085}:
+Following is an example of valid input line, taken for the paper by Gu, et al, The Journal of Cell Biology, 1999\footnote{doi: 10.1083/jcb.147.5.1085}:
 
 
 \begin{lstlisting}[breaklines]

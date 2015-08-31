@@ -93,6 +93,6 @@ Tagging pipeline refers to the process of creating and updating the Solr index t
   \label{fig:TaggingPipelineBroad}
 \end{figure}
 
-Here we see that the process consists of smaller processes. As already said, there could be two way of running this process: one-off and periodic update. While one-off Tagging Pipeline could be done on RostLab's \textbf{jobtest}/\textbf{jobtest2} or similar physical servers within RostLab infrastructure, the periodic update process should be only done via SunGrid Engine call scheduled in crontab \citep{keller1999take} (more details later).
+Here we see that the process consists of smaller processes. As already said, there could be two way of running this process: one-off and periodic update. While one-off Tagging Pipeline could be done on RostLab's \textbf{jobtest}/\textbf{jobtest2} or similar physical servers within RostLab infrastructure, the periodic update process should be only done via SunGrid Engine call scheduled in crontab \citep{keller1999take}.
 
 We deliberately showed the NER Tagger process within this Pipeline to reader to emphasize its importance. Lars Juhl Jensen was kind enough to give us his program that we use to run on our pipeline. There would be more details on both our NER Tagger and Tagging Pipeline in later chapter(s) but for now we would focus on big picture detail.
