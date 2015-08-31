@@ -5,3 +5,146 @@
 \label{Chapter7} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 \lhead{Chapter 7. \emph{Results and Validations}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+
+Here we present the validation results from our PubSeq system. Specifically, the validation concerns the performance of underlying STRING Tagger used in our program. In the latter section of the chapter we would also like to give some overview of previous daily PubSeq Tagging Process. We derive the first part of this chapter from the studies on the performance of various NER Taggers conducted by (Ofner, 2015 \citep{ofner2015evaluation}). This studies were conducted by Andre Ofner with resources help by the author, particularly regarding the STRING Tagger, which is used in this project.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Named-Entity Tagging and Normalization Evaluations}
+
+To investigate the performance of STRING Tagger, especially with regards to other comparable "gene and gene product", String TAGGER was simultaneously tested with other Named-Entity Recognition program. The validation focuses on three performance measures \citep{ofner2015evaluation}: 
+
+\begin{itemize}
+\item Entity-based recognition.
+\item Entity-based normalization.
+\item Document-scope normalization.
+\end{itemize}
+
+As discussed in previous chapter (particularly Subsection \ref{ssec:NERC2} in Second Chapter), the process of named entity concerns particularly two main steps: annotation (\textbf{tagging}) of the entities and \textbf{normalization} of named entities. This validation attempts to analyze how STRING Tagger performs relatively to other contenders systems in both steps of named entity recognition. The third aspect of validation, document scope normalization, refers to the annotations of list of identifier mentions within a document without regarding the start and end position of the mention, as opposed to entity-based recognition and normalization aspect of the systems.
+
+\subsection{Evaluation Corpora}
+
+There are various corporas that were available for the evaluation. Like normal use case in most of biomedical NER taggers, including STRING Tagger, the evaluation concerns mainly the parts of the articles that are generally universally available for public -- the abstract of biomedical publications \citep{ofner2015evaluation} \citep{nenadic2005mining}. Of all corporas containing training and test data set for biomedical abstract NER tagging, which at the time of studies numbered at around 13 corporas, the evaluation focused mainly on three corporas for each named entity tagging and normalization \citep{ofner2015evaluation}.
+
+
+For named entity tagging, corporas that were trained and test against are: 
+
+\begin{itemize}
+\item BioCreative II
+\item CRAFT
+\item IDP4
+\end{itemize}
+ 
+For named entity normalization, corporas that were trained and test against are:
+
+\begin{itemize}
+\item BioCreative III
+\item CRAFT
+\item LocText
+\end{itemize}
+
+
+\textbf{BioCreative II} \citep{smith2008overview}, which was developed within the framework of second round of BioCreative tasks\citep{hirschman2005overview}. Based on GENETAG corpus \citep{tanabe2005genetag}, it contains about 20,000 single sentences representing instances within biomedical abstracts. Each sentence is asigned with unique identifer which could be cross-referenced to obtain the list of mentions and their positions within text. It also contains list of alternative mentions, which generally refer to long forms of certain annotations \citep{ofner2015evaluation}. Of 20,000 sentences within the corpus: 15,000 were to be used for training and the other 5,000 for testing.
+
+\textbf{BioCreative III} \citep{lu2011gene} concerns mainly gene normalization tasks in document level. Unlike BioCreative II mention corpus and related normalization corpus in BioCreative II \citep{morgan2008overview}, however, the annotation task in BioCreative III only concerns the global mention of speciec-agnostic annotations . That is, all orthologous proteins coming from various species would be considered as one entity. The data consists of different sets with varying annotation quality:
+
+\begin{itemize}
+\item Test data sets consist of three sets of descending annotation quality: \textit{Test 50 Gold} (50 articles, human annotation), \textit{Test 50 Silver} (same 50 articles as \textit{Test 50 Gold}, pooled from participating teams at the beginning of challenge), \textit{Test 507 Silver 1} (combination of \textit{Test 50 Gold} and pooled participants annotations for the other 457 articles) and \textit{Test 507 Silver 2} (507 articles, pooled participants annotations for the entirety of the articles).
+
+\item Training data sets consist of two sets: complete annotation of 32 articles and essential annotations of 500 full-length articles
+\end{itemize} 
+
+
+\textbf{The Colorado Richly Annotated Full Text Corpus (CRAFT)} \citep{verspoor2012corpus} \citep{bada2012concept} contains 67 articles with approximately 21,000 sentences. The corpus was manually curated and contains various information that are of interest in the fields of biomedical NLP. The corpus offers various annotations ranging from EntrezGene, Gene Ontology (GO), NCBI Taxonomy, Protein Ontology, Sequence Ontology to Penn Treebank markup, Chemical Entities of Biological Interest and Cell Ontology. Since each of the ontologies is constructed in varying degree of abstraction and accuracy, the corpus reflects the varying degrees of confidence for annotations of each ontology \citep{bada2012concept}
+
+\textbf{LocText Corpus} \citep{goldberg2015linked} contains 100 abstracts from PubMed articles. The articles were selected to create a mixture of articles mentioning studies on \textit{H. sapiens} (50 articles in total), \textit{S. cerevisae} (50 articles) and \textit{A. thaliana} (25 articles). Goldberg, \textit{et al} initially utilized the corpus in the development of LocTree text mining extension \citep{goldberg2012loctree2}. The corpus contains exact position of proteins. Each annotation is defined using mention's corresponding UniProt ID.
+
+\textbf{The IDP4 corpus} (Cajuela, \textit{et al}, 2015, ongoing) is our internal corpus currently under development. It contains 123 full text articles and is structured in the same way as \textbf{LocText Corpus}.
+
+\subsection{Competing Methods}
+
+
+Ten programs are chosen for evaluation, including STRING Tagger. Of ten, four are specialized in the task of entity recognition. The table describing the programs can be seen in Table \ref{fig:TaggingMethods}.
+
+\begin{table}[htbp]
+\caption{Methods used in evaluations of entity recognition. Adopted from (Ofner, 2015 \citep{ofner2015evaluation})}
+\centering
+\begin{tabular}{ l c c c c }
+  \hline
+  Program & Type & Year & Language & License\\
+  \hline
+  \hline
+  ABNER & CRF & 2004 & Java & Open Source\\
+  \hline
+  Banner & CRF & 2008 & Java & Open Source\\
+  \hline
+  Gimli & CRF, dictionary & 2012 & Java & Open Source\\
+  \hline
+  PennBioTagger & CRF, dictionary & 2005 & Java & Open Source\\
+  \hline
+\end{tabular}
+  \label{fig:TaggingMethods}
+\end{table}
+
+The other six programs, on the other hand, are specialized in entry normalizations. The table describing the program can be seen in Table \ref{fig:NormalizationMethods}.
+
+\begin{table}[htbp]
+\caption{Overview of reviewed systems that are specialized on the task of entity normalization. Adopted from (Ofner, 2015 \citep{ofner2015evaluation})}
+\centering
+\begin{tabular}{ l c c c c }
+  \hline
+  Program & Scope & Year & Language & License\\
+  \hline
+  \hline
+  GNAT & Mention & 2011 & Java & Open Source\\
+  \hline
+  GeneTuKit & Document & 2011 & Java & Open Source\\
+  \hline
+  GNormPlus & Mention & 2015 & C++ & Open Source\\
+  \hline
+  Neji & Mention & 2013 & Java & Open Source\\
+  \hline
+  Moara & Mention & 2012 & Java & Open Source\\
+  \hline
+  STRING Tagger & Mention & 2013 & C++ & private\\
+  \hline
+\end{tabular}
+  \label{fig:NormalizationMethods}
+\end{table}
+
+\subsection{Tagging Measures}
+
+For \textbf{entity-based tagging evaluations}, there are three categories of matches considered in the evaluation \citep{ofner2015evaluation}:
+
+\begin{itemize}
+\item \textbf{Exact match}, one-to-one match location-wise between benchmark and predicted annotation.
+\item \textbf{Partial match} (also, \textbf{fuzzy match}, refers to partial match between two.
+\item \textbf{Weighted match}, weighted match between exact and partial match.
+\end{itemize}
+
+For \textbf{normalization evaluations}, the measures are classified into two categories for both \textbf{entity-based normalization} and \textbf{document scope normalization}:
+
+\begin{itemize}
+\item Document level normalization
+\item Document level normalization weighted for reported number of identifiers.
+\end{itemize}
+
+Since \textbf{entity-based normalization} concerns the exact position of mentions just like \textbf{entity-based tagging}, the quality measures in this regard combines both the qualities derived from \textbf{entity-based tagging} (match categorization) and normalization-own measures. \textbf{Document-scope normalization}, on the other hand, only relies on normalization-own measures.
+
+Each candidate program from Table \ref{fig:TaggingMethods} and Table \ref{fig:NormalizationMethods} would then be tested against suitable corporas. The evaluation utilizes balanced F-score, which considers both precision and recall of the test to measure the performance of each program \citep{salton1986introduction}:
+
+$$
+F_1 = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}}
+$$
+
+\subsection{Tagging Results}
+
+The validation shows a very positive results with regard to our tagging system of choice. 
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Tagging Pipeline}
+
+

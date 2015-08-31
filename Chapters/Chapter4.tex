@@ -142,6 +142,8 @@ Following is a slightly redacted example of a MEDLINE reference, which is taken 
 
 \subsection{Specifications}
 
+Specifications table for PubSeq MEDLINE Abstracts can be found in Table \ref{tab:PubSeqMEDLINEAbstracts}.
+
 \begin{table}[htbp]
 \caption{Specifications table for PubSeq MEDLINE Abstracts}
 \centering
@@ -154,6 +156,7 @@ Following is a slightly redacted example of a MEDLINE reference, which is taken 
   Path, running program & \texttt{/mnt/project/rost\_db/medline}\\
   \hline
 \end{tabular}
+\label{tab:PubSeqMEDLINEAbstracts}
 \end{table}
 
 %\begin{figure}[!h]
@@ -192,6 +195,8 @@ path_to_medline ner_output_path mesh_output_path counter_file counter_max
 
 \subsection{Specifications}
 
+Specifications table for XMLAbstractsFormatter.java can be found in Table \ref{tab:XMLAbstractsFormatter}.
+
 \begin{table}[htbp]
 \caption{Specifications table for XMLAbstractsFormatter.java}
 \centering
@@ -204,6 +209,7 @@ path_to_medline ner_output_path mesh_output_path counter_file counter_max
   Path, running program & \texttt{/mnt/project/pubseq/dev/pubseq-tagging /PubSeq/src/org/pubseq/utils/ XMLAbstractsFormatter.java} \\
   \hline
 \end{tabularx}
+\label{tab:XMLAbstractsFormatter}
 \end{table}
 
 %----------------------------------------------------------------------------------------
@@ -316,21 +322,21 @@ This class modifies the results from STRING Tagger. The program AnnotationBackma
 
 The main task of this program is to map the sixth column of each of the NER Tagger annotations back to the name as it appears in entities.tsv. That is, given a result:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 12345	1	1	11	13	some annotation	9606	23456789
-\end{verbatim}
+\end{lstlisting}
 
 and the entry of \texttt{23456789} within \texttt{entities.tsv}:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 23456789	9606	standard name
-\end{verbatim}
+\end{lstlisting}
 
 this program replaces \texttt{some annotation} with \texttt{standard name}:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 12345	1	1	11	13	standard name	9606	23456789
-\end{verbatim}
+\end{lstlisting}
 
 This mapped back would be used in later part of the Tagging Process. Also knowing the standard name would help in development process and sanity check, since standard name is usually (in case of protein) unique within some databases (for example, most proteins have ENSEMBL ID as its standard name), albeit not uniformly -- the identifiers hailed from various systems including ENSEBML \citep{hubbard2002ensembl}, VectorBase \citep{lawson2009vectorbase} and some even have ordered locus (OLS) name as identifier \footnote{\href{http://www.uniprot.org/help/gene_name}{\texttt{http://www.uniprot.org/help/gene\_name}}, accessed 23/08/2015}.
 
@@ -349,6 +355,8 @@ ner_annotations entities_table result_path statistics_path
 
 \subsection{Specifications}
 
+Specifications table for AnnotationBackmapper.java can be found in Table \ref{tab:AnnotationBackmapper}.
+
 \begin{table}[htbp]
 \caption{Specifications table for AnnotationBackmapper.java}
 \centering
@@ -361,6 +369,7 @@ ner_annotations entities_table result_path statistics_path
   Path, running program & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq /src/org/pubseq/annotation /AnnotationBackmapper.class}\\
   \hline
 \end{tabularx}
+\label{tab:AnnotationBackmapper}
 \end{table}
 
 %----------------------------------------------------------------------------------------
@@ -373,17 +382,17 @@ This program "annotates" the tagging results of the NER tagger. Given a result r
 
 As thus, the program only has to parse the resulting merged table from the Maintenance Pipeline and maps the sixth column (already in standard name, see Section \ref{sec:AnnotationBackmapper}) to the list of all associated names. For each of associated names, an entry is written to output file in format similar to the output format of NER tagger with the sixth column replaced with associated names. That is, for each backmapped annotation from previous step:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 12345	1	1	11	13	standard name	9606	23456789
-\end{verbatim}
+\end{lstlisting}
 
 we checked whether standard name is a UniProt ID. If so, then we write this to output file. Otherwise we check whether there exists some mapping from standard name to list of names within the merged files. If there is one, write for each values the same entry with sixth column replaced:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines]
 12345	1	1	11	13	uniprot_id_1	9606	23456789
 ...
 12345	1	1	11	13	uniprot_id_m	9606	23456789
-\end{verbatim}
+\end{lstlisting}
 
 
 The multiple mapping of standard name to multiple UniProt IDs could be explained best by the fact that named-entity tagging is prone with lexical ambiguity \citep{ratinov2009design}. A protein named X might have associated with several entries in UniProt database, each with exact or almost exact assigned name. This is especially true in case of unreviewed proteins. There are for example several cases of UniProt entry named \textit{Brain-derived neurotrophic factor} (BNDF) \footnote{\href{http://www.uniprot.org/uniprot/?query=Brain-derived+neurotrophic+factor&sort=score}{\texttt{http://www.uniprot.org/uniprot/?query=Brain-derived+neurotrophic+factor\&sort=score}}, accessed 23/08/2015}. All aforementioned entries are both lexically and ideolexically the same -- they represent very similar things that have very similar name, which would be very hard to disambiguate \citep{ratinov2009design}. This is moreover exacerbated by the fact that many unreviewed proteins have names that are similar or exactly similar to the to the ones that are already reviewed. Looking at context around the annotation location might help to determine whether a named-entity belong to protein or not or whether a tagged protein name belongs to human or not (for example, by looking at whether the sentence/paragraph/paper delves into human disaese etc), however, exactly named protein belonging to same species is hard to differentiate by looking at text. Therefore the multiple mapping.
@@ -402,6 +411,8 @@ ner_backmapped_annotation merged_table uniprot_kbid output_file
 
 \subsection{Specifications}
 
+Specifications table for Annotater.java can be found in Table \ref{tab:Annotater}.
+
 \begin{table}[htbp]
 \caption{Specifications table for Annotater.java}
 \centering
@@ -414,6 +425,7 @@ ner_backmapped_annotation merged_table uniprot_kbid output_file
   Path, running program & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq /src/org/pubseq/annotation/Annotater.class}\\
   \hline
 \end{tabularx}
+\label{tab:Annotater}
 \end{table}
 
 %----------------------------------------------------------------------------------------
@@ -427,6 +439,8 @@ This step is mostly deprecated but is still connected with other program. It was
 
 \subsection{Specifications}
 
+Specifications table for StatisticsUtils.java can be found in Table \ref{tab:StatisticsUtils}.
+
 \begin{table}[htbp]
 \caption{Specifications table for StatisticsUtils.java}
 \centering
@@ -439,6 +453,7 @@ This step is mostly deprecated but is still connected with other program. It was
   Path, running program & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq /src/org/pubseq/utils/StatisticsUtils.class}\\
   \hline
 \end{tabularx}
+\label{tab:StatisticsUtils}
 \end{table}
 
 %----------------------------------------------------------------------------------------
@@ -507,6 +522,8 @@ Also,
 
 \subsection{Specifications}
 
+Specifications table for IndexerNew.java can be found in Table \ref{tab:IndexerNew}.
+
 \begin{table}[htbp]
 \caption{Specifications table for IndexerNew.java}
 \centering
@@ -519,13 +536,14 @@ Also,
   Path, running program & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq /src/org/pubseq/utils/IndexerNew.class}\\
   \hline
 \end{tabularx}
+\label{tab:IndexerNew}
 \end{table}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 9
 %----------------------------------------------------------------------------------------
 
-\section{IndexerNew.java}
+\section{SolrUpdater.java}
 
 The class from which SolrUpdater.jar derives from, \textbf{SolrUpdater.java}, consists of module that will push new documents (Solr term for an entry) onto the index. Given the input table with updated columns from IndexerNew.java, this programs parses and pushes each row from the input. For each row from the input, the program checks whether such document already exists in the Solr index. If such document exists, it updates the attributes of existing document by adding new values coming from the parsed row. Otherwise, the program creates a document instance containing the values from parsed row as attributes. The document instance would then be pushed onto the index. The whole process utilizes the Solr native API for Java, SolrJ \citep{grainger2014solr} \footnote{\href{https://wiki.apache.org/solr/Solrj}{\texttt{https://wiki.apache.org/solr/Solrj}}, accessed 23/08/2015} \footnote{\href{https://cwiki.apache.org/confluence/display/solr/Using+SolrJ}{\texttt{https://cwiki.apache.org/confluence/display/solr/Using+SolrJ}}, accessed 23/08/2015}.
 
@@ -542,6 +560,8 @@ abstract_output_path index_url
 
 \subsection{Specifications}
 
+Specifications table for SolrUploader.java can be found in Table \ref{tab:SolrUploader}.
+
 \begin{table}[htbp]
 \caption{Specifications table for SolrUploader.java}
 \centering
@@ -554,4 +574,5 @@ abstract_output_path index_url
   Path, running program & \texttt{/mnt/project/pubseq/pandu/pubseq-crawler/PubSeq /SolrUploader.jar}\\
   \hline
 \end{tabularx}
+\label{tab:SolrUploader}
 \end{table}
