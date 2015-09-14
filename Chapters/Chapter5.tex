@@ -16,10 +16,10 @@ This chapter tries to answer the second question posed in Section \ref{sec:Chap3
 
 Apache Solr is an open source enterprise search platform. Initially developed by Yonik Seeley at CNET Networks, it was later published as open source through donation to Apache Software Foundation \footnote{\href{https://issues.apache.org/jira/browse/SOLR-1}{\texttt{https://issues.apache.org/jira/browse/SOLR-1}}, accessed 25/08/2015}. The system is based on Lucene internally, which implements the indexing routine and mechanism \citep{hatcher2004lucene}.
 
-Unlike SQL based system which uses tabular data representation as underlying data storage mechanism, Solr utilizes indexing mechanism in its system \citep{smiley2015apache}. This non-SQL characteristics of data storage and maintenance are generally known as NoSQL. (Brewer, 2000) \citep{brewer2000towards} did some nice overview of comparison between NoSQL and conventional SQL, which could be seen on Table \ref{fig:ACIDvsBASE}
+Unlike SQL-based system which uses tabular data representation as underlying data storage mechanism, Solr utilizes indexing mechanism in its system \citep{smiley2015apache}. This non-SQL characteristics of data storage and maintenance are generally known as NoSQL. (Brewer, 2000) \citep{brewer2000towards} did some nice overview of comparison between NoSQL and conventional SQL, which could be seen on Table \ref{fig:ACIDvsBASE}
 
 \begin{table}[htbp]
-\caption{ACID vs. BASE database property models. ACID vs. BASE database property models. Some NoSQL databases implement ACID, others do not. Taken from (Wachinger, 2013) \citep{wachinger2013next}, adopted from (Brewer, 2000) \citep{brewer2000towards}.}
+\caption[ACID vs. BASE database property models.]{ACID vs. BASE database property models. Some NoSQL databases implement ACID, others do not. Adopted from (Wachinger, 2013 \citep{wachinger2013next}) and (Brewer, 2000 \citep{brewer2000towards}).}
 \begin{tabularx}{\textwidth}{ | l | X | }
   \hline
   ACID (relational model) & BASE (NoSQL) \\

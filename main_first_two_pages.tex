@@ -25,12 +25,27 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[12pt, oneside]{Thesis} % The default font size and one-sided printing (no margin offsets)
+\documentclass[12pt, twoside]{Thesis} % The default font size and one-sided printing (no margin offsets)
 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
+\usepackage{csquotes}
 \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
-\hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
+
+%----------------------------------------------------------------------------------------
+%	USER DEFINED usepackage's
+%----------------------------------------------------------------------------------------
+
+\usepackage{verbatimbox}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{subfig}
+
+\hypersetup{urlcolor=black, colorlinks=black} % Colors hyperlinks in blue - change to black if annoying
 \title{\ttitle} % Defines the thesis title - don't touch this
 
 \begin{document}
@@ -63,25 +78,61 @@
 
 \textsc{\Large Technische Universit\"at M\"unchen}\\[.5cm] % University name
 \textsc{\Large Ludwig-Maximilians-Universit\"at M\"unchen}\\[1.5cm] % University name
+%\textsc{\Large Ludwig-Maximillians-Univesit\"at M\"unchen}\\[.5cm] % University name
 \textsc{\Large Department of Informatics}\\[1.5cm] % University name
 \textsc{\Large Bachelor's Thesis in Bioinformatics}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
-{\huge \bfseries PubSeq: Amino Acid-based Search Engine for MEDLINE Abstracts}\\[0.4cm] % Thesis title
+{\Large \bfseries PubSeq: Amino Acid-based Search Engine for MEDLINE Abstracts}\\[0.4cm] % Thesis title
+{\Large \bfseries PubSeq: Aminosäuresequenz basierte Suchmachine für MEDLINE Abstrakten}\\[0.4cm] % Thesis title
 \HRule \\[1.5cm] % Horizontal line
  
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Pandu Raharja
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+%\includegraphics{Logo} % University/department logo - uncomment to plac
+Prof. Dr. Burkhard Rost\\
+\emph{Advisors:} \\
+Dr. Guy Yachdav \\
+Juan Miguel Cejuela
+\end{flushright}
+\end{minipage}\\[3cm]
  
 % \textit{A thesis submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
-\textsc{\huge Pandu Raharja}\\[.5cm]
 %\textit{in the}\\[0.4cm]
 %Technische Universit\"at M\"unchen\\Faculty of Informatics\\[2cm] % Research group name and department name
  
-{\large September 15, 2015}\\[4cm] % Date
-%\includegraphics{Logo} % University/department logo - uncomment to place it
+%{\large September 15, 2015}\\[4cm] % Date
+{\large September 15, 2015}\\[4cm] % Datee it
  
 \vfill
 \end{center}
 
 \end{titlepage}
 
-\end{document}
+
+%----------------------------------------------------------------------------------------
+%	DECLARATION PAGE
+%	Your institution may give you a different text to place here
+%----------------------------------------------------------------------------------------
+
+\Declaration{
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+I confirm that this bachelor's thesis is my own work and I have documented all sources and material used.
+ 
+Signed:\\
+\rule[1em]{25em}{0.5pt} % This prints a line for the signature
+ 
+Date:\\
+\rule[1em]{25em}{0.5pt} % This prints a line to write the date
+}
+
+\end{document}  
